@@ -382,7 +382,8 @@ main{ position:relative; z-index:1; }
 .reach-map{ text-align:center; }
 .reach-map h3{ font-family: var(--font-display); font-size: 24px; margin: 0 0 28px; }
 .map-wrap{
-  position:relative; max-width: 900px; margin: 0 auto; aspect-ratio: 16/8;
+  position:relative; max-width: 900px; margin: 0 auto;
+  aspect-ratio: 2/1; /* match, so the box itself is already 2:1 */
   background: radial-gradient(60% 90% at 50% 50%, rgba(107,79,160,0.14), transparent 70%);
   border: 1px solid var(--card-border); border-radius: 20px; overflow:hidden;
 }

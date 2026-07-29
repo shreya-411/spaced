@@ -293,8 +293,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resizeMap(){
       const rect = mapCanvas.parentElement.getBoundingClientRect();
-      mapCanvas.width = rect.width;
-      mapCanvas.height = rect.height;
+      const targetRatio = 2; // world map is naturally 2:1 (360° wide / 180° tall)
+
+      let w = rect.width;
+      let h = w / targetRatio;
+
+      // if that height doesn't fit the box, constrain by height instead
+      if (h > rect.height){
+        h = rect.height;
+        w = h * targetRatio;
+      }
+
+      mapCanvas.width = w;
+      mapCanvas.height = h;
+
+      // center the canvas inside its parent if it doesn't fill it exactly
+      mapCanvas.style.width = `${w}px`;
+      mapCanvas.style.height = `${h}px`;
+      mapCanvas.style.position = 'absolute';
+      mapCanvas.style.left = '50%';
+      mapCanvas.style.top = '50%';
+      mapCanvas.style.transform = 'translate(-50%, -50%)';
+    }
+
+    function drawWorldOutline(w, h){
+      mapCtx.beginPath();
+      WORLD_POLYGONS.forEach(poly => {
+        poly.forEach(([lon, lat], i) => {
+          const { x, y } = latLonToXY(lat, lon, w, h);
+          if (i === 0) mapCtx.moveTo(x, y);
+          else mapCtx.lineTo(x, y);
+        });
+      });
+      mapCtx.strokeStyle = 'rgba(139,120,200,0.35)';
+      mapCtx.lineWidth = 1;
+      mapCtx.stroke();
+      mapCtx.fillStyle = 'rgba(139,120,200,0.06)';
+      mapCtx.fill();
     }
 
     function drawMap(){
@@ -302,8 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const w = mapCanvas.width, h = mapCanvas.height;
       mapCtx.clearRect(0, 0, w, h);
 
-      // faint lat/long dot grid — a minimal, abstract stand-in for a map
-      mapCtx.fillStyle = 'rgba(139,120,200,0.16)';
+      // world coastlines
+      drawWorldOutline(w, h);
+
+      // faint lat/long dot grid on top of the outline
+      mapCtx.fillStyle = 'rgba(139,120,200,0.12)';
       const gap = 22;
       for (let gx = 0; gx < w; gx += gap){
         for (let gy = 0; gy < h; gy += gap){
@@ -318,14 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const { x, y } = latLonToXY(loc.lat, loc.lon, w, h);
         const pulse = (Math.sin(pinTime * 0.04 + i) + 1) / 2;
 
-        // pulse ring
         mapCtx.beginPath();
         mapCtx.arc(x, y, 4 + pulse * 10, 0, Math.PI * 2);
         mapCtx.strokeStyle = `rgba(77,217,192,${0.5 - pulse * 0.4})`;
         mapCtx.lineWidth = 1.4;
         mapCtx.stroke();
 
-        // core dot
         mapCtx.beginPath();
         mapCtx.arc(x, y, 3.5, 0, Math.PI * 2);
         mapCtx.fillStyle = '#4DD9C0';
