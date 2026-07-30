@@ -122,7 +122,7 @@ if (!isTouch && cometCanvas) {
 
 const ALBUM_IMAGES = [
   { src: 'assets/album-pics/img1.jpg', alt: 'Caption 1' },
-  { src: 'assets/album-pics/img2.JPG', alt: 'Caption 2' },
+  { src: 'assets/album-pics/img2.jpg', alt: 'Caption 2' },
   { src: 'assets/album-pics/img3.jpg', alt: 'Caption 3' },
   { src: 'assets/album-pics/img4.jpg', alt: 'Caption 4' },
   { src: 'assets/album-pics/img5.jpg', alt: 'Caption 5' },
