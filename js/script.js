@@ -270,12 +270,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Approximate ambassador / follower locations (feel free to add more:
   // { name, lat, lon } — lat/lon are converted to x/y automatically below)
   const LOCATIONS = [
-    { name: 'Abu Dhabi', lat: 24.5, lon: 54.4 },
+    { name: 'United Arab Emirates', lat: 24.5, lon: 54.4 },
     { name: 'Berlin', lat: 52.5, lon: 13.4 },
     { name: 'Amsterdam', lat: 52.4, lon: 4.9 },
-    { name: 'London', lat: 51.5, lon: -0.1 },
+    { name: 'England', lat: 51.5, lon: -0.1 },
     { name: 'Mumbai', lat: 19.1, lon: 72.9 },
-    { name: 'Toronto', lat: 43.7, lon: -79.4 },
+    { name: 'Delhi', lat: 28.61, lon: 77.21 },
+    { name: 'Indore', lat: 22.72, lon: 78.86},
+    { name: 'Bangalore', lat: 12.97, lon: 77.59 },
+    { name: 'Edmonton', lat: 53.4, lon: -113.49 },
     { name: 'Singapore', lat: 1.35, lon: 103.8 }
   ];
 
