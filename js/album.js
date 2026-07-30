@@ -162,7 +162,3 @@ const startIndex = Math.min(Math.max(Number(params.get('img')) || 0, 0), ALBUM_I
 
 buildAlbumList();
 showAlbumImage(startIndex);
-
-backBtn.addEventListener('click', () => {
-  window.location.href = 'index.html#album';
-});
