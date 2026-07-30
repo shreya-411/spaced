@@ -270,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Approximate ambassador / follower locations (feel free to add more:
   // { name, lat, lon } — lat/lon are converted to x/y automatically below)
   const LOCATIONS = [
-    { name: 'Dubai', lat: 25.2, lon: 55.3 },
     { name: 'Abu Dhabi', lat: 24.5, lon: 54.4 },
     { name: 'Berlin', lat: 52.5, lon: 13.4 },
     { name: 'Amsterdam', lat: 52.4, lon: 4.9 },
@@ -446,81 +445,4 @@ if (scrollTopBtn){
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
-
-/* ===================== ALBUM MODAL ===================== */
-const ALBUM_IMAGES = [
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic1501a.jpg', alt: 'Pillars of Creation' },
-  { src: 'https://cdn.esawebb.org/archives/images/news/potm2209a.jpg', alt: 'Spiral galaxy IC 5332' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/opo0511a.jpg', alt: 'Elliptical galaxy NGC 1316' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic0406a.jpg', alt: 'Deep field of galaxies' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic0910s.jpg', alt: 'Nebula' }
-];
-
-const albumModal = document.getElementById('album-modal');
-const albumModalList = document.getElementById('album-modal-list');
-const albumModalImage = document.getElementById('album-modal-image');
-const albumModalCaption = document.getElementById('album-modal-caption');
-const viewAllTile = document.getElementById('album-view-all');
-
-function buildAlbumList(){
-  albumModalList.innerHTML = '';
-  ALBUM_IMAGES.forEach((img, i) => {
-    const item = document.createElement('div');
-    item.className = 'album-modal-item';
-    item.dataset.index = i;
-    item.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
-    item.addEventListener('click', () => showAlbumImage(i));
-    albumModalList.appendChild(item);
-  });
-}
-
-function showAlbumImage(index){
-  const img = ALBUM_IMAGES[index];
-  albumModalImage.src = img.src;
-  albumModalImage.alt = img.alt;
-  albumModalCaption.textContent = img.alt;
-
-  document.querySelectorAll('.album-modal-item').forEach(el => {
-    el.classList.toggle('active', Number(el.dataset.index) === index);
-  });
-  // scroll active item into view in the side list
-  const activeEl = albumModalList.querySelector('.album-modal-item.active');
-  if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
-}
-
-function openAlbumModal(startIndex = 0){
-  buildAlbumList();
-  showAlbumImage(startIndex);
-  albumModal.classList.add('open');
-  albumModal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  document.body.classList.add('modal-open');
-}
-
-function closeAlbumModal(){
-  albumModal.classList.remove('open');
-  albumModal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-  document.body.classList.remove('modal-open');
-}
-
-if (viewAllTile){
-  viewAllTile.addEventListener('click', () => openAlbumModal(0));
-}
-
-// Clicking any sample thumbnail opens the modal pre-scrolled to that image
-document.querySelectorAll('.album-item[data-album-index]').forEach(item => {
-  item.addEventListener('click', () => {
-    const index = Number(item.dataset.albumIndex);
-    openAlbumModal(index);
-  });
-});
-
-document.querySelectorAll('[data-close-modal]').forEach(el => {
-  el.addEventListener('click', closeAlbumModal);
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && albumModal.classList.contains('open')) closeAlbumModal();
-});
 });
