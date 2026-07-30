@@ -162,6 +162,13 @@ button{ font: inherit; background:none; border:none; color:inherit; cursor:point
   transition: transform .35s var(--ease), box-shadow .35s var(--ease);
 }
 
+body.modal-open #sidebar,
+body.modal-open #logo-toggle,
+body.modal-open #nav-toggle,
+body.modal-open #hover-zone{
+  z-index: 1 !important;
+}
+
 /* Desktop: hidden by default, revealed on hover-zone hover, sidebar-itself hover,
    or when pinned open by clicking the logo button */
 @media (min-width: 901px){
@@ -309,13 +316,37 @@ main{ position:relative; z-index:1; }
   pointer-events: none;
   transition: opacity .3s var(--ease), transform .3s var(--ease), border-color .3s var(--ease);
 }
+
+#scroll-top-btn img{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #scroll-top-btn.visible{
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
-#scroll-top-btn:hover{
-  border-color: rgba(77,217,192,0.7);
+
+#scroll-top-btn .arrow-hover{
+  opacity: 0;
+}
+
+#scroll-top-btn:hover .arrow-default{
+  opacity: 0;
+}
+#scroll-top-btn:hover .arrow-hover{
+  opacity: 1;
+}
+
+#scroll-top-btn img{
+  transition: opacity .2s var(--ease);
 }
 
 /* =========================================================================
@@ -484,7 +515,7 @@ main{ position:relative; z-index:1; }
    ALBUM
 ========================================================================= */
 .album-grid{
-  display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 16px;
+  display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 16px; grid-auto-flow: dense;
 }
 .album-item{ border-radius: 16px; overflow:hidden; position:relative; }
 .album-item img{ width:100%; height:100%; object-fit:cover; transition: transform .5s var(--ease); }
@@ -495,6 +526,125 @@ main{ position:relative; z-index:1; }
   display:flex; align-items:center; justify-content:center; text-align:center;
   border: 1.5px dashed var(--card-border); color: var(--text-dimmer);
   font-family: var(--font-mono); font-size: 13px; letter-spacing:.5px;
+}
+
+/* ===================== ALBUM: VIEW ALL TILE ===================== */
+.album-view-all{
+  grid-column: 4;
+  grid-row: 2;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  border: 1px dashed var(--card-border);
+  background: rgba(139,120,200,0.06);
+  transition: border-color .3s var(--ease), background .3s var(--ease);
+}
+.album-view-all:hover{
+  border-color: rgba(77,217,192,0.6);
+  background: rgba(77,217,192,0.06);
+}
+.album-view-all span{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+/* ===================== ALBUM MODAL ===================== */
+.album-modal{
+  position: fixed; inset:0; z-index: 2000;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition: opacity .3s var(--ease);
+}
+.album-modal.open{ opacity:1; pointer-events:auto; }
+
+.album-modal-backdrop{
+  position:absolute; inset:0;
+  background: rgba(5,4,12,0.85);
+  backdrop-filter: blur(6px);
+}
+
+.album-modal-panel{
+  position:relative;
+  width: min(1100px, 92vw);
+  height: min(575px, 85vh);
+  display:flex;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  overflow: hidden; /* clips the panel's own rounded corners — fine to keep */
+  transform: scale(0.96);
+  transition: transform .3s var(--ease);
+  padding: 30px;
+  gap: 10px;
+}
+.album-modal.open .album-modal-panel{ transform: scale(1); }
+
+.album-modal-close{
+  position:absolute; top:10px; right:10px; z-index:5;
+  background:none; border:none; color:#fff; font-size:28px; line-height:1;
+  cursor:pointer; opacity:0.7; transition: opacity .2s var(--ease);
+}
+.album-modal-close:hover{ opacity:1; }
+
+.album-modal-list{
+  width: 260px; flex-shrink:0;
+  height: 100%;
+  overflow-y: auto;
+  column-count: 2;
+  column-gap: 0;
+}
+.album-modal-item{
+  cursor:pointer;
+  border: 2px solid transparent;
+  transition: border-color .2s var(--ease), opacity .2s var(--ease);
+  opacity: 0.6;
+  break-inside: avoid;
+  display: block;
+}
+.album-modal-item:hover{ opacity: 0.85; }
+.album-modal-item.active{
+  border-color: #4DD9C0;
+  opacity: 1;
+}
+.album-modal-item img{
+  width: 100%;
+  height: auto;      /* keeps natural aspect ratio instead of forcing square */
+  display: block;
+  margin: 0;
+}
+.album-modal-item span{
+  font-size: 13px; color: var(--text-dim);
+}
+.album-modal-item.active span{ color:#fff; }
+
+.album-modal-viewer{
+  flex:1;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: 20px; gap:20px; min-width:0; min-height:0;
+  height: 100%;
+}
+.album-modal-viewer img{
+  max-width: 90%;
+  max-height: calc(100% - 60px); 
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius:12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.album-modal-viewer p{
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px; color: var(--text-dim); text-align:center;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+@media (max-width: 700px){
+  .album-modal-panel{ flex-direction:column; height: 90vh; }
+  .album-modal-list{ width:100%; height:120px; border-right:none; border-bottom:1px solid var(--card-border); display:flex; overflow-x:auto; overflow-y:hidden; padding:12px; }
+  .album-modal-item{ flex-direction:column; border-left:none; border-bottom:2px solid transparent; flex-shrink:0; }
+  .album-modal-item.active{ border-left-color:transparent; border-bottom-color:#4DD9C0; }
 }
 
 /* =========================================================================

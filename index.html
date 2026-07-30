@@ -53,7 +53,6 @@
   <ul class="nav-links">
     <li><a href="#home" data-nav><span class="nav-orbit"></span>Home</a></li>
     <li><a href="#about" data-nav><span class="nav-orbit"></span>About</a></li>
-    <li><a href="#about" data-nav data-sub="vision"><span class="nav-orbit"></span>Vision &amp; Mission</a></li>
     <li><a href="#involved" data-nav><span class="nav-orbit"></span>Get Involved</a></li>
     <li><a href="#events" data-nav><span class="nav-orbit"></span>Events &amp; Services</a></li>
     <li><a href="#board" data-nav><span class="nav-orbit"></span>Founders &amp; Board</a></li>
@@ -62,7 +61,7 @@
     <li><a href="#contact" data-nav><span class="nav-orbit"></span>Contact</a></li>
   </ul>
 
-  <a class="sidebar-cta" href="#involved" data-nav>Join SPACED →</a>
+  <a class="sidebar-cta" href="#involved" data-nav>Join Us!</a>
 </nav>
 <div id="nav-scrim"></div>
 
@@ -257,10 +256,10 @@
     <p class="section-lede reveal">Hover a founder's ring to learn more about them.</p>
 
     <div class="founders-grid">
-      <div class="founder-orb reveal" tabindex="0">
+      <div class="founder-orb reveal" tabindex="0" data-linkedin="https://www.linkedin.com/in/apurva-girish/">
         <div class="orb-ring"></div>
         <img src="assets/apurva-girish.jpg" alt="Apurva Girish" class="orb-photo">
-        <div class="orb-bio">
+        <div class="orb-bio" href="https://www.linkedin.com/in/apurva-girish/">
           <h4>Apurva Girish</h4>
           <p>Second-year MPhys Physics with Astrophysics student at
             the University of Manchester, working at the intersection of research,
@@ -269,7 +268,7 @@
         <span class="orb-name">Apurva Girish<small>Co-Founder</small></span>
       </div>
 
-      <div class="founder-orb reveal" tabindex="0">
+      <div class="founder-orb reveal" tabindex="0" data-linkedin="https://www.linkedin.com/in/surabhisonawane/">
         <div class="orb-ring"></div>
         <img src="assets/surabhi-sonawane.jpg" alt="Surabhi Sonawane" class="orb-photo">
         <div class="orb-bio">
@@ -301,6 +300,19 @@
   ALBUM
 ============================================================== -->
 <section id="album" class="section album-section">
+
+  <div id="album-modal" class="album-modal" aria-hidden="true">
+  <div class="album-modal-backdrop" data-close-modal></div>
+  <div class="album-modal-panel">
+    <button class="album-modal-close" data-close-modal aria-label="Close gallery">&times;</button>
+    <div class="album-modal-list" id="album-modal-list"></div>
+    <div class="album-modal-viewer">
+      <img id="album-modal-image" src="" alt="">
+      <p id="album-modal-caption"></p>
+    </div>
+  </div>
+  </div>
+
   <div class="section-inner">
     <p class="eyebrow reveal">MOMENTS</p>
     <h2 class="section-title reveal">Album</h2>
@@ -308,13 +320,13 @@
       cosmos that inspired us. <!-- EDIT ME: swap these for your own event photos --></p>
 
     <div class="album-grid">
-      <div class="album-item reveal album-tall"><img src="https://cdn.esahubble.org/archives/images/news/heic1501a.jpg" alt="Pillars of Creation"></div>
-      <div class="album-item reveal"><img src="https://cdn.esawebb.org/archives/images/news/potm2209a.jpg" alt="Spiral galaxy IC 5332"></div>
-      <div class="album-item reveal"><img src="https://cdn.esahubble.org/archives/images/news/opo0511a.jpg" alt="Elliptical galaxy NGC 1316"></div>
-      <div class="album-item reveal album-wide"><img src="https://cdn.esahubble.org/archives/images/news/heic0406a.jpg" alt="Deep field of galaxies"></div>
-      <div class="album-item reveal"><img src="https://cdn.esahubble.org/archives/images/news/heic0910s.jpg" alt="Nebula"></div>
-      <div class="album-item reveal album-placeholder">
-        <span>+ Add your<br>event photos</span>
+      <div class="album-item reveal album-tall" data-album-index="0"><img src="https://cdn.esahubble.org/archives/images/news/heic1501a.jpg" alt="Pillars of Creation"></div>
+      <div class="album-item reveal" data-album-index="1"><img src="https://cdn.esawebb.org/archives/images/news/potm2209a.jpg" alt="Spiral galaxy IC 5332"></div>
+      <div class="album-item reveal" data-album-index="2"><img src="https://cdn.esahubble.org/archives/images/news/opo0511a.jpg" alt="Elliptical galaxy NGC 1316"></div>
+      <div class="album-item reveal album-wide" data-album-index="3"><img src="https://cdn.esahubble.org/archives/images/news/heic0406a.jpg" alt="Deep field of galaxies"></div>
+      <div class="album-item reveal" data-album-index="4"><img src="https://cdn.esahubble.org/archives/images/news/heic0910s.jpg" alt="Nebula"></div>
+      <div class="album-item reveal album-view-all" id="album-view-all">
+        <span>View All →</span>
       </div>
     </div>
   </div>
@@ -397,21 +409,16 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="assets/logo.jpg" alt="SPACED" class="brand-mark">
+      <img src="assets/logo.png" alt="SPACED" class="brand-mark">
       <span>SPACED</span>
     </div>
-    <p>Space literacy, for everyone. © <span id="year"></span> SPACED. All rights reserved.</p>
-    <div class="footer-socials">
-      <a href="https://www.instagram.com/wespaced_/" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.youtube.com/@weSpaced" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://www.linkedin.com/company/wespaced/posts/?feedView=all" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:org.spaced@gmail.com">Email</a>
-    </div>
+    <p>© <span id="year"></span> SPACED. All rights reserved.</p>
   </div>
 </footer>
 
 <button id="scroll-top-btn" aria-label="Scroll to top">
-  <img src="assets/arrow.png" alt="Up arrow" width="30" height="30">
+  <img src="assets/white-arrow.png" alt="" class="arrow-default">
+  <img src="assets/cyan-arrow.png" alt="" class="arrow-hover">
 </button>
 
 </main>
