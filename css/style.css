@@ -152,7 +152,7 @@ button{ font: inherit; background:none; border:none; color:inherit; cursor:point
 
 #sidebar{
   position: fixed; top:0; left:0; height:100vh; width: var(--sidebar-w);
-  z-index: 1000; padding: 32px 20px;
+  z-index: 1000; padding: 100px 20px 32px;
   display:flex; flex-direction:column;
   background: linear-gradient(180deg, rgba(26,21,53,0.94), rgba(10,10,15,0.96));
   border-right: 1px solid var(--card-border);
@@ -242,7 +242,7 @@ main{ position:relative; z-index:1; }
   font-size: clamp(32px, 4.5vw, 52px); margin: 0 0 16px; line-height:1.1;
 }
 .section-lede{
-  color: var(--text-dim); max-width: 620px; font-size: 17px; margin: 0 0 56px;
+  color: var(--text-dim); max-width: 1000px; font-size: 17px; margin: 0 0 56px;
 }
 
 .grad-text{
@@ -277,12 +277,46 @@ main{ position:relative; z-index:1; }
 .btn-primary:hover{ color: var(--black); }
 
 .btn-ghost{
-  background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.35);
+  background: transparent; color: var(--purple); border: 1.5px solid var(--purple);
 }
 .btn-ghost::before{ background: var(--teal); }
 .btn-ghost:hover{ color: var(--black); border-color: var(--teal); }
 
 .btn-wide{ width:100%; max-width: 340px; padding: 18px 30px; }
+
+.btn-disabled{
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  border-color: rgba(255,255,255,0.15) !important;
+  color: rgba(255,255,255,0.35) !important;
+}
+
+#scroll-top-btn{
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 900;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease), border-color .3s var(--ease);
+}
+#scroll-top-btn.visible{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+#scroll-top-btn:hover{
+  border-color: rgba(77,217,192,0.7);
+}
 
 /* =========================================================================
    HERO
@@ -360,29 +394,27 @@ main{ position:relative; z-index:1; }
 /* =========================================================================
    GET INVOLVED
 ========================================================================= */
-.involved-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 64px; }
+.involved-grid{ display:grid; grid-template-columns: repeat(1, 2fr); gap: 24px; margin-bottom: 64px; }
 .involved-card{
   background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;
-  padding: 30px; display:flex; flex-direction:column; gap:14px;
+  padding: 30px; display:flex; flex-direction:row; gap:14px;
   transition: transform .35s var(--ease), border-color .35s var(--ease);
 }
 .involved-card:hover{ transform: translateY(-6px); border-color: rgba(139,120,200,0.55); }
 .involved-card h3{ font-family: var(--font-display); font-size:20px; margin:0; }
 .involved-card p{ color: var(--text-dim); font-size:15px; margin:0 0 8px; flex:1; }
-.involved-card .btn{ align-self:flex-start; }
-
-.cta-band{
-  display:flex; align-items:center; justify-content:space-between; gap: 24px; flex-wrap:wrap;
-  background: linear-gradient(120deg, var(--dark-purple), var(--black));
-  border: 1px solid var(--card-border); border-radius: 22px; padding: 40px 44px; margin-bottom: 72px;
+.involved-card .btn{flex-shrink: 0; white-space: nowrap; padding: 12px 24px; }
+.involved-card .card-text{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.cta-band h3{ font-family: var(--font-display); font-size: 26px; margin:0 0 6px; }
-.cta-band p{ color: var(--text-dim); margin:0; }
 
 .reach-map{ text-align:center; }
 .reach-map h3{ font-family: var(--font-display); font-size: 24px; margin: 0 0 28px; }
 .map-wrap{
-  position:relative; max-width: 900px; margin: 0 auto;
+  position:relative; max-width: 1000px; margin: 0 auto;
   aspect-ratio: 2/1; /* match, so the box itself is already 2:1 */
   background: radial-gradient(60% 90% at 50% 50%, rgba(107,79,160,0.14), transparent 70%);
   border: 1px solid var(--card-border); border-radius: 20px; overflow:hidden;
@@ -408,7 +440,7 @@ main{ position:relative; z-index:1; }
 .founders-grid{ display:flex; gap: 60px; justify-content:center; flex-wrap:wrap; margin-bottom: 70px; }
 
 .founder-orb{
-  position:relative; width: 200px; height:200px; border-radius:50%;
+  position:relative; width: 250px; height:250px; border-radius:50%;
   display:flex; align-items:center; justify-content:center; cursor:pointer;
 }
 .orb-ring{
@@ -435,12 +467,12 @@ main{ position:relative; z-index:1; }
 .founder-orb:hover .orb-ring, .founder-orb:focus-visible .orb-ring{ animation-duration: 2.4s; }
 
 .orb-name{
-  position:absolute; bottom:-34px; left:50%; transform: translateX(-50%);
+  position:absolute; bottom:-64px; left:50%; transform: translateX(-50%);
   font-family: var(--font-display); font-weight:600; font-size:16px; text-align:center; white-space:nowrap;
 }
 .orb-name small{ display:block; font-family: var(--font-mono); font-weight:400; font-size:11px; color: var(--text-dimmer); letter-spacing:1px; margin-top:2px; }
 
-.marquee-wrap{ overflow:hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-wrap{ overflow:hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); padding-top:50px;}
 .marquee-track{ display:flex; gap: 44px; width:max-content; animation: marquee 26s linear infinite; }
 .marquee-wrap:hover .marquee-track{ animation-play-state: paused; }
 .marquee-member{ display:flex; flex-direction:column; align-items:center; gap:10px; width:110px; flex-shrink:0; }

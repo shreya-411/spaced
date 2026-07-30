@@ -3,31 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>SPACED — Space Literacy, For Everyone</title>
+<title>SPACED</title>
 <meta name="description" content="SPACED is a student-led organization making space education accessible and engaging for everyone, regardless of age, background, or knowledge.">
-
-<!-- ===================================================================
-  WESPACED.ORG — EDITING GUIDE
-  -------------------------------------------------------------------
-  This file is organized top-to-bottom in the same order as the site's
-  navigation. Each section is wrapped in a clearly labeled comment block
-  like the one you're reading now. To edit copy, just find the section
-  comment and change the text between the tags.
-
-  Look for the string  EDIT ME  throughout this file — every link,
-  placeholder image, and piece of contact info you'll likely want to
-  swap out is flagged with it.
-
-  Colors, fonts and spacing all live in css/style.css under :root at
-  the very top of the file — change a value there and it updates the
-  whole site.
-=========================================================================-->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="icon" href="assets/logo.jpg">
+<link rel="icon" href="assets/logo.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -55,7 +38,7 @@
 <!-- Always-visible logo button (desktop): click to pin the sidebar open,
      click again to un-pin. Hovering the left edge also peeks it open. -->
 <button id="logo-toggle" aria-label="Open navigation" aria-expanded="false">
-  <img src="assets/logo.jpg" alt="SPACED">
+  <img src="assets/logo.png" alt="SPACED">
 </button>
 
 <!-- Invisible strip along the left edge — hovering it reveals the sidebar (desktop only) -->
@@ -63,7 +46,7 @@
 
 <nav id="sidebar" aria-label="Primary">
   <a href="#home" class="brand" data-nav>
-    <img src="assets/logo.jpg" alt="SPACED" class="brand-mark">
+    <img src="assets/logo.png" alt="SPACED" class="brand-mark">
     <span class="brand-name">SPACED</span>
   </a>
 
@@ -119,7 +102,7 @@
   <div class="section-inner">
     <p class="eyebrow reveal">WHO WE ARE</p>
     <h2 class="section-title reveal">About, Vision &amp; Mission</h2>
-    <p class="section-lede reveal">Tap a card to flip it open.</p>
+    <p class="section-lede reveal">Tap a card to flip.</p>
 
     <div class="flip-grid" id="vision">
       <!-- Card 1: About -->
@@ -181,38 +164,25 @@
     <p class="eyebrow reveal">JOIN THE MISSION</p>
     <h2 class="section-title reveal">Get Involved</h2>
     <p class="section-lede reveal">However you want to contribute, there's a place for
-      you in SPACED — as a member, an ambassador, or a partner.</p>
+      you in SPACED as a member or an ambassador.</p>
 
     <div class="involved-grid">
       <div class="involved-card reveal">
-        <h3>Become an Ambassador</h3>
-        <p>Represent SPACED in your school or community, run local events, and help
-          grow space literacy where you are.</p>
-        <!-- EDIT ME: replace with your real Google Form link -->
+        <div class="card-text">
+          <h3>Become an Ambassador</h3>
+          <p>Represent SPACED in your school or community, run local events, and help
+            grow space literacy where you are.</p>
+        </div>
         <a href="https://forms.gle/REPLACE-WITH-YOUR-AMBASSADOR-FORM" target="_blank" rel="noopener" class="btn btn-primary">Apply Now</a>
       </div>
       <div class="involved-card reveal">
-        <h3>Volunteer</h3>
-        <p>Help run workshops, stargazing nights, and school outreach — no experience
-          in astronomy required, just curiosity.</p>
-        <!-- EDIT ME -->
-        <a href="https://forms.gle/REPLACE-WITH-YOUR-VOLUNTEER-FORM" target="_blank" rel="noopener" class="btn btn-ghost">Sign Up</a>
+        <div class="card-text">
+          <h3>Become a Member (Currently Closed)</h3>
+          <p>Help run workshops, stargazing nights, and school outreach with no prior
+            experience in astronomy required, just curiosity.</p>
+        </div>
+        <span class="btn btn-ghost btn-disabled" aria-disabled="true">Apply Now</span>
       </div>
-      <div class="involved-card reveal">
-        <h3>Partner With Us</h3>
-        <p>Schools, museums, and organizations — collaborate with SPACED on events,
-          talks, and long-term programs.</p>
-        <!-- EDIT ME -->
-        <a href="mailto:org.spaced@gmail.com" class="btn btn-ghost">Get in Touch</a>
-      </div>
-    </div>
-
-    <div class="cta-band reveal">
-      <div>
-        <h3>Ready to explore?</h3>
-        <p>Become part of a community making the universe make sense.</p>
-      </div>
-      <a href="https://forms.gle/REPLACE-WITH-YOUR-AMBASSADOR-FORM" target="_blank" rel="noopener" class="btn btn-primary btn-wide">Ready to Explore? →</a>
     </div>
 
     <div class="reach-map reveal">
@@ -220,9 +190,9 @@
       <h3>Ambassadors across the globe</h3>
       <div class="map-wrap">
         <canvas id="worldmap"></canvas>
-        <!-- Pins are positioned in JS from the LOCATIONS array in script.js -->
       </div>
     </div>
+
   </div>
 </section>
 
@@ -292,7 +262,7 @@
         <img src="assets/apurva-girish.jpg" alt="Apurva Girish" class="orb-photo">
         <div class="orb-bio">
           <h4>Apurva Girish</h4>
-          <p>Co-Founder — second-year MPhys Physics with Astrophysics student at
+          <p>Second-year MPhys Physics with Astrophysics student at
             the University of Manchester, working at the intersection of research,
             education, and science communication.</p>
         </div>
@@ -304,7 +274,7 @@
         <img src="assets/surabhi-sonawane.jpg" alt="Surabhi Sonawane" class="orb-photo">
         <div class="orb-bio">
           <h4>Surabhi Sonawane</h4>
-          <p>Co-Founder — undergraduate astrophysics student with a strong passion
+          <p>Undergraduate astrophysics student with a strong passion
             for space exploration and scientific discovery.</p>
         </div>
         <span class="orb-name">Surabhi Sonawane<small>Co-Founder</small></span>
@@ -357,36 +327,34 @@
   <div class="section-inner">
     <p class="eyebrow reveal">FROM OUR MEMBERS</p>
     <h2 class="section-title reveal">Blog</h2>
-    <p class="section-lede reveal">Our blog now lives on Wix, written by SPACED members.
-      Read the latest posts or head over to see everything.</p>
+    <p class="section-lede reveal">Our blog now lives on Substack, written by SPACED members.
+      Read the latest posts or head on over to see everything.</p>
 
     <div class="cards-grid blog-grid">
-      <a class="blog-card reveal" href="https://wespaced.wixsite.com/blog" target="_blank" rel="noopener">
+      <a class="blog-card reveal" href="https://spacedorg.substack.com/p/whats-next-for-artemis" target="_blank" rel="noopener">
         <!-- EDIT ME: point these at real post URLs on your Wix blog -->
-        <span class="blog-tag">Field Notes</span>
-        <h3>What we saw through the telescope this month</h3>
-        <p>A member's first look at Saturn's rings — and why it changed how they
-          see the night sky.</p>
-        <span class="blog-read">Read on Wix →</span>
+        <span class="blog-tag">Artemis III</span>
+        <h3>What's Next for Artemis?</h3>
+        <p>A dive into how the Artemis program could shape the future of lunar exploration.</p>
+        <span class="blog-read">Read on Substack →</span>
       </a>
-      <a class="blog-card reveal" href="https://wespaced.wixsite.com/blog" target="_blank" rel="noopener">
-        <span class="blog-tag">Guide</span>
-        <h3>A beginner's guide to reading a star chart</h3>
-        <p>No telescope needed — just a clear sky and five minutes to learn the
-          basics.</p>
-        <span class="blog-read">Read on Wix →</span>
+      <a class="blog-card reveal" href="https://spacedorg.substack.com/p/exploring-the-solar-system-humanitys" target="_blank" rel="noopener">
+        <span class="blog-tag">Solar System</span>
+        <h3>Exploring the Solar System: Humanity’s Bold Journey</h3>
+        <p>A comprehensive look into the efforts to explore our cosmic neighborhood.</p>
+        <span class="blog-read">Read on Substack →</span>
       </a>
-      <a class="blog-card reveal" href="https://wespaced.wixsite.com/blog" target="_blank" rel="noopener">
-        <span class="blog-tag">Recap</span>
-        <h3>Inside our latest school outreach day</h3>
-        <p>Photos and reflections from our newest ambassadors' first workshop.</p>
-        <span class="blog-read">Read on Wix →</span>
+      <a class="blog-card reveal" href="https://spacedorg.substack.com/p/black-holes-vs-neutron-stars-the" target="_blank" rel="noopener">
+        <span class="blog-tag">Universe</span>
+        <h3>Black Holes vs. Neutron Stars: The Cosmic Titans</h3>
+        <p>A comparison of two of the most extreme objects in the universe.</p>
+        <span class="blog-read">Read on Substack →</span>
       </a>
     </div>
 
     <div class="center-cta reveal">
       <!-- EDIT ME: your Wix blog URL -->
-      <a href="https://wespaced.wixsite.com/blog" target="_blank" rel="noopener" class="btn btn-primary">Visit the Blog</a>
+      <a href="https://spacedorg.substack.com/" target="_blank" rel="noopener" class="btn btn-primary">Visit the Blog</a>
     </div>
   </div>
 </section>
@@ -441,6 +409,10 @@
     </div>
   </div>
 </footer>
+
+<button id="scroll-top-btn" aria-label="Scroll to top">
+  <img src="assets/arrow.png" alt="Up arrow" width="30" height="30">
+</button>
 
 </main>
 <script src="js/world-map-data.js"></script>

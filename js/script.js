@@ -287,7 +287,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function latLonToXY(lat, lon, w, h){
       const x = (lon + 180) / 360 * w;
-      const y = (90 - lat) / 180 * h;
+
+      const clampedLat = Math.max(-75, Math.min(75, lat));
+      const latRad = clampedLat * Math.PI / 180;
+      const mercN = Math.log(Math.tan((Math.PI / 4) + (latRad / 2)));
+
+      const maxMercN = Math.log(Math.tan((Math.PI / 4) + (75 * Math.PI / 180 / 2)));
+      const y = (h / 2) - (h * mercN / (2 * maxMercN));
+
       return { x, y };
     }
 
@@ -412,4 +419,14 @@ document.addEventListener('DOMContentLoaded', () => {
     mapCanvas.addEventListener('mouseleave', () => tooltip.style.opacity = '0');
   }
 
+/* ===================== SCROLL TO TOP BUTTON ===================== */
+const scrollTopBtn = document.getElementById('scroll-top-btn');
+if (scrollTopBtn){
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 });
