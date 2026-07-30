@@ -119,11 +119,20 @@ if (!isTouch && cometCanvas) {
 }
 
 const ALBUM_IMAGES = [
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic1501a.jpg', alt: 'Pillars of Creation' },
-  { src: 'https://cdn.esawebb.org/archives/images/news/potm2209a.jpg', alt: 'Spiral galaxy IC 5332' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/opo0511a.jpg', alt: 'Elliptical galaxy NGC 1316' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic0406a.jpg', alt: 'Deep field of galaxies' },
-  { src: 'https://cdn.esahubble.org/archives/images/news/heic0910s.jpg', alt: 'Nebula' }
+  { src: 'assets/album-pics/img1.jpg', alt: 'Caption 1' },
+  { src: 'assets/album-pics/img2.jpg', alt: 'Caption 2' },
+  { src: 'assets/album-pics/img3.jpg', alt: 'Caption 3' },
+  { src: 'assets/album-pics/img4.jpg', alt: 'Caption 4' },
+  { src: 'assets/album-pics/img5.jpg', alt: 'Caption 5' },
+  { src: 'assets/album-pics/img6.jpg', alt: 'Caption 6' },
+  { src: 'assets/album-pics/img7.jpeg', alt: 'Caption 7' },
+  { src: 'assets/album-pics/img8.jpeg', alt: 'Caption 8' },
+  { src: 'assets/album-pics/img9.jpeg', alt: 'Caption 9' },
+  { src: 'assets/album-pics/img10.jpeg', alt: 'Caption 10' },
+  { src: 'assets/album-pics/img11.jpeg', alt: 'Caption 11' },
+  { src: 'assets/album-pics/img12.jpeg', alt: 'Caption 12' },
+  { src: 'assets/album-pics/img13.jpeg', alt: 'Caption 13' },
+  { src: 'assets/album-pics/img14.jpeg', alt: 'Caption 14' },
 ];
 
 const albumModalList = document.getElementById('album-modal-list');
@@ -133,14 +142,25 @@ const backBtn = document.getElementById('album-back-btn');
 
 function buildAlbumList(){
   albumModalList.innerHTML = '';
+
+  const colLeft = document.createElement('div');
+  colLeft.className = 'album-modal-column';
+  const colRight = document.createElement('div');
+  colRight.className = 'album-modal-column';
+
   ALBUM_IMAGES.forEach((img, i) => {
     const item = document.createElement('div');
     item.className = 'album-modal-item';
     item.dataset.index = i;
     item.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
     item.addEventListener('click', () => showAlbumImage(i));
-    albumModalList.appendChild(item);
+
+    // alternate images between the two columns
+    (i % 2 === 0 ? colLeft : colRight).appendChild(item);
   });
+
+  albumModalList.appendChild(colLeft);
+  albumModalList.appendChild(colRight);
 }
 
 function showAlbumImage(index){

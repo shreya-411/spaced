@@ -591,8 +591,19 @@ main{ position:relative; z-index:1; }
   width: 260px; flex-shrink:0;
   height: 100%;
   overflow-y: auto;
-  column-count: 2;
-  column-gap: 0;
+  display: flex;
+  gap: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.album-modal-list::-webkit-scrollbar{
+  display: none;
+}
+.album-modal-column{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .album-modal-item{
   cursor:pointer;
@@ -609,9 +620,8 @@ main{ position:relative; z-index:1; }
 }
 .album-modal-item img{
   width: 100%;
-  height: auto;      /* keeps natural aspect ratio instead of forcing square */
+  height: auto;
   display: block;
-  margin: 0;
 }
 .album-modal-item span{
   font-size: 13px; color: var(--text-dim);
