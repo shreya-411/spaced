@@ -421,31 +421,19 @@ document.addEventListener('DOMContentLoaded', () => {
     mapCanvas.addEventListener('mouseleave', () => tooltip.style.opacity = '0');
   }
 /* ===================== FOUNDER ORB → LINKEDIN ===================== */
-document.querySelectorAll('.founder-orb').forEach(orb => {
-  orb.addEventListener('click', () => {
-    const linkedin = orb.getAttribute('data-linkedin');
-    if (linkedin){
-      window.open(linkedin, '_blank', 'noopener');
-    }
-  });
-  // keyboard accessibility, since you already have tabindex="0"
-  orb.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
+  document.querySelectorAll('.founder-orb').forEach(orb => {
+    orb.addEventListener('click', () => {
       const linkedin = orb.getAttribute('data-linkedin');
-      if (linkedin) window.open(linkedin, '_blank', 'noopener');
-    }
+      if (linkedin){
+        window.open(linkedin, '_blank', 'noopener');
+      }
+    });
+    orb.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        const linkedin = orb.getAttribute('data-linkedin');
+        if (linkedin) window.open(linkedin, '_blank', 'noopener');
+      }
+    });
   });
-});
-
-/* ===================== SCROLL TO TOP BUTTON ===================== */
-const scrollTopBtn = document.getElementById('scroll-top-btn');
-if (scrollTopBtn){
-  window.addEventListener('scroll', () => {
-    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
-  });
-  scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
 });

@@ -100,7 +100,7 @@ button{ font: inherit; background:none; border:none; color:inherit; cursor:point
   width:100%; height:100%;
 }
 #comet-cursor{
-  position: fixed; inset:0; z-index: 9998; pointer-events:none;
+  position: fixed; inset:0; z-index: 10000; pointer-events:none;
   width:100%; height:100%;
 }
 @media (hover: none), (pointer: coarse){

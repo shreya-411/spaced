@@ -284,11 +284,11 @@
       <div class="marquee-track" id="board-marquee">
         <!-- EDIT ME: duplicate this block for each board member, then the script
              will auto-duplicate the whole set once more for a seamless loop -->
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#1</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#2</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#3</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#4</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#5</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#1</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#2</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#3</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#4</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#5</span></div>
       </div>
     </div>
   </div>
@@ -421,5 +421,36 @@
 </main>
 <script src="js/world-map-data.js"></script>
 <script src="js/script.js"></script>
+
+<!-- ===================== NEWSLETTER POPUP ===================== -->
+<div id="newsletter-popup" class="newsletter-popup" aria-hidden="true">
+  <div class="newsletter-popup-backdrop" data-close-newsletter></div>
+  <div class="newsletter-popup-panel">
+
+    <span class="eyebrow">✦ Stay in orbit</span>
+    <h3>Join the SPACED newsletter</h3>
+    <p>Stay updated on stargazing nights, workshops, and everything space at Sheffield.</p>
+
+    <form id="newsletter-form">
+      <div class="newsletter-form-fields">
+        <div class="newsletter-form-inner">
+          <input type="email" id="newsletter-email" placeholder="you@example.com" required>
+          <button type="submit" class="btn btn-primary btn-wide">Subscribe</button>
+          <button type="button" id="newsletter-not-interested" class="newsletter-dismiss">Not interested</button>
+        </div>
+      </div>
+
+      <div class="newsletter-check-badge" id="newsletter-check-badge">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 12.5L9.5 18L20 6" />
+        </svg>
+      </div>
+    </form>
+
+    <p id="newsletter-success">🎉 You're subscribed — welcome aboard!</p>
+    <p id="newsletter-error">Something went wrong. Please try again.</p>
+  </div>
+</div>
+
 </body>
 </html>
