@@ -602,3 +602,33 @@ main{ position:relative; z-index:1; }
   .btn{ padding: 16px 28px; }
   .contact-card, .involved-card, .info-card, .blog-card{ -webkit-tap-highlight-color: transparent; }
 }
+/* ===================== SCROLL TO TOP BUTTON ===================== */
+#scroll-top-btn{
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 500;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(26,21,53,0.85);
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease), border-color .3s var(--ease);
+}
+#scroll-top-btn.visible{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+#scroll-top-btn img{ width: 18px; height: 18px; object-fit: contain; }
+#scroll-top-btn .arrow-hover{ display: none; }
+#scroll-top-btn:hover{ border-color: var(--teal); }
+#scroll-top-btn:hover .arrow-default{ display: none; }
+#scroll-top-btn:hover .arrow-hover{ display: block; }
