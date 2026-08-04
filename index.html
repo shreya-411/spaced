@@ -9,11 +9,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 
 <link rel="icon" href="assets/logo.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<nav id="scroll-dots" aria-label="Section progress">
+  <div class="scroll-dots-track"></div>
+  <div class="scroll-dots-fill" id="scroll-dots-fill"></div>
+  <a href="#home" class="scroll-dot" data-nav data-section="home" aria-label="Home"></a>
+  <a href="#about" class="scroll-dot" data-nav data-section="about" aria-label="About"></a>
+  <a href="#involved" class="scroll-dot" data-nav data-section="involved" aria-label="Get Involved"></a>
+  <a href="#events" class="scroll-dot" data-nav data-section="events" aria-label="Events & Services"></a>
+  <a href="#board" class="scroll-dot" data-nav data-section="board" aria-label="Founders & Board"></a>
+  <a href="#album" class="scroll-dot" data-nav data-section="album" aria-label="Album"></a>
+  <a href="#blog" class="scroll-dot" data-nav data-section="blog" aria-label="Blog"></a>
+  <a href="#contact" class="scroll-dot" data-nav data-section="contact" aria-label="Contact"></a>
+</nav>
 
 <!-- ============================ PRELOADER ============================ -->
 <div id="preloader" aria-hidden="true">
@@ -53,15 +67,13 @@
   <ul class="nav-links">
     <li><a href="#home" data-nav><span class="nav-orbit"></span>Home</a></li>
     <li><a href="#about" data-nav><span class="nav-orbit"></span>About</a></li>
-    <li><a href="#involved" data-nav><span class="nav-orbit"></span>Get Involved</a></li>
+    <li><a href="#involved" data-nav class="nav-highlight"><span class="nav-orbit"></span>Get Involved</a></li>
     <li><a href="#events" data-nav><span class="nav-orbit"></span>Events &amp; Services</a></li>
     <li><a href="#board" data-nav><span class="nav-orbit"></span>Founders &amp; Board</a></li>
     <li><a href="#album" data-nav><span class="nav-orbit"></span>Album</a></li>
     <li><a href="#blog" data-nav><span class="nav-orbit"></span>Blog</a></li>
     <li><a href="#contact" data-nav><span class="nav-orbit"></span>Contact</a></li>
   </ul>
-
-  <a class="sidebar-cta" href="#involved" data-nav>Join Us!</a>
 </nav>
 <div id="nav-scrim"></div>
 
@@ -70,92 +82,93 @@
 <!-- =============================================================
   HOME / LANDING
 ============================================================== -->
-<section id="home" class="section hero">
-  <div class="hero-bg">
-    <!-- EDIT ME: swap for your own hero photo/edited logo composite if you'd like -->
-    <img src="assets/hero-bg.jpg" alt="" aria-hidden="true">
-    <div class="hero-bg-overlay"></div>
-  </div>
-
-  <div class="hero-content">
-    <p class="eyebrow reveal">STUDENT-LED · SPACE LITERACY FOR EVERYONE</p>
-    <h1 class="hero-title reveal">Space,<br>made for <span class="grad-text">everyone.</span></h1>
-    <p class="hero-sub reveal">SPACED is a student-led organization dedicated to promoting space
-      literacy and inspiring people to learn more about our universe in an accessible
-      and engaging way, regardless of age, background, or level of knowledge.</p>
-    <div class="hero-actions reveal">
-      <a href="#involved" class="btn btn-primary" data-nav>Get Involved</a>
-      <a href="#about" class="btn btn-ghost" data-nav>Learn More</a>
+<div class="scroll-transition-wrap" id="home-transition-wrap">
+  <section id="home" class="section hero">
+    <div class="hero-bg">
+      <img src="assets/hero-bg.jpg" alt="" aria-hidden="true">
+      <div class="hero-bg-overlay"></div>
     </div>
-  </div>
 
-  <a href="#about" class="scroll-cue" data-nav aria-label="Scroll to About">
-    <span class="scroll-cue-line"></span> Scroll
-  </a>
-</section>
+    <div class="hero-content">
+      <h1 class="hero-title reveal">Space,<br>made for <span class="grad-text">everyone.</span></h1>
+      <p class="hero-sub reveal">SPACED is a student-led organization dedicated to promoting space
+        literacy and inspiring people to learn more about our universe in an accessible
+        and engaging way, regardless of age, background, or level of knowledge.</p>
+      <div class="hero-actions reveal">
+        <a href="#involved" class="btn btn-primary" data-nav>Get Involved</a>
+        <a href="#about" class="btn btn-ghost" data-nav>Learn More</a>
+      </div>
+    </div>
+
+    <a href="#about" class="scroll-cue" data-nav aria-label="Scroll to About">
+      <span class="scroll-cue-line"></span> Scroll
+    </a>
+  </section>
+</div>
 
 <!-- =============================================================
   ABOUT SPACED / OUR VISION AND MISSION  (flip cards)
 ============================================================== -->
-<section id="about" class="section about-section">
-  <div class="section-inner">
-    <p class="eyebrow reveal">WHO WE ARE</p>
-    <h2 class="section-title reveal">About, Vision &amp; Mission</h2>
-    <p class ="section-lede reveal">What makes us SPACED. </p>
-    
+<div class="scroll-transition-wrap" id="about-transition-wrap">
+  <section id="about" class="section about-section">
+    <div class="section-inner">
+      <p class="eyebrow">WHO WE ARE</p>
+      <h2 class="section-title">About, Vision &amp; Mission</h2>
+      <p class ="section-lede">What makes us SPACED. </p>
+      
 
-    <div class="flip-grid" id="vision">
-      <!-- Card 1: About -->
-      <button class="flip-card reveal" type="button" aria-expanded="false">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">
-            <span class="flip-icon">✦</span>
-            <h3>About SPACED</h3>
-            <span class="flip-hint">Tap to open</span>
+      <div class="flip-grid" id="vision">
+        <!-- Card 1: About -->
+        <button class="flip-card" type="button" aria-expanded="false">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <span class="flip-icon">✦</span>
+              <h3>About SPACED</h3>
+              <span class="flip-hint">Tap to open</span>
+            </div>
+            <div class="flip-face flip-back">
+              <p><!-- EDIT ME -->SPACED is a student-led space society bringing together people with a 
+                shared interest in astronomy, space science, and engineering through stargazing events, 
+                talks, and educational activities.</p>
+            </div>
           </div>
-          <div class="flip-face flip-back">
-            <p><!-- EDIT ME -->SPACED is a student-led space society bringing together people with a 
-              shared interest in astronomy, space science, and engineering through stargazing events, 
-              talks, and educational activities.</p>
-          </div>
-        </div>
-      </button>
+        </button>
 
-      <!-- Card 2: Vision -->
-      <button class="flip-card reveal" type="button" aria-expanded="false">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">
-            <span class="flip-icon">◎</span>
-            <h3>Our Vision</h3>
-            <span class="flip-hint">Tap to open</span>
+        <!-- Card 2: Vision -->
+        <button class="flip-card" type="button" aria-expanded="false">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <span class="flip-icon">◎</span>
+              <h3>Our Vision</h3>
+              <span class="flip-hint">Tap to open</span>
+            </div>
+            <div class="flip-face flip-back">
+              <p><!-- EDIT ME -->A world where curiosity about the cosmos is universal, and
+                where anyone, anywhere, can look up at the night sky and understand
+                a little more of what they're seeing.</p>
+            </div>
           </div>
-          <div class="flip-face flip-back">
-            <p><!-- EDIT ME -->A world where curiosity about the cosmos is universal, and
-              where anyone, anywhere, can look up at the night sky and understand
-              a little more of what they're seeing.</p>
-          </div>
-        </div>
-      </button>
+        </button>
 
-      <!-- Card 3: Mission -->
-      <button class="flip-card reveal" type="button" aria-expanded="false">
-        <div class="flip-inner">
-          <div class="flip-face flip-front">
-            <span class="flip-icon">✧</span>
-            <h3>Our Mission</h3>
-            <span class="flip-hint">Tap to open</span>
+        <!-- Card 3: Mission -->
+        <button class="flip-card" type="button" aria-expanded="false">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <span class="flip-icon">✧</span>
+              <h3>Our Mission</h3>
+              <span class="flip-hint">Tap to open</span>
+            </div>
+            <div class="flip-face flip-back">
+              <p><!-- EDIT ME -->To build space literacy through accessible events,
+                mentorship and community whilst turning wonder into understanding,
+                one orbit at a time.</p>
+            </div>
           </div>
-          <div class="flip-face flip-back">
-            <p><!-- EDIT ME -->To build space literacy through accessible events,
-              mentorship and community whilst turning wonder into understanding,
-              one orbit at a time.</p>
-          </div>
-        </div>
-      </button>
+        </button>
+      </div>
     </div>
-  </div>
-</section>
-
+  </section>
+</div>
 <!-- =============================================================
   GET INVOLVED
 ============================================================== -->
@@ -186,7 +199,7 @@
 
     <div class="reach-map reveal">
       <p class="eyebrow">OUR REACH</p>
-      <h3>Ambassadors across the globe</h3>
+      <h3>Members across the globe</h3>
       <div class="map-wrap">
         <canvas id="worldmap"></canvas>
       </div>
@@ -204,7 +217,28 @@
     <h2 class="section-title reveal">Events &amp; Services</h2>
     <p class="section-lede reveal">From telescopes on rooftops to talks in classrooms:
       here's how SPACED brings space down to earth.</p>
-
+    <div class="stats-row">
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="30">0</span>
+        <span class="stat-suffix">+</span>
+        <p class="stat-label">Active Members</p>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="15">0</span>
+        <span class="stat-suffix">+</span>
+        <p class="stat-label">Events Hosted</p>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="5">0</span>
+        <span class="stat-suffix"></span>
+        <p class="stat-label">Countries Reached</p>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="2">0</span>
+        <span class="stat-suffix">+</span>
+        <p class="stat-label">Years Running</p>
+      </div>
+    </div>
     <div class="cards-grid">
       <div class="info-card reveal">
         <span class="info-card-num">01</span>
@@ -243,6 +277,68 @@
           our mission.</p>
       </div>
     </div>
+    <div class="timeline-wrap" id="timeline-wrap">
+      <div class="timeline-pin">
+        <p class="eyebrow">OUR JOURNEY</p>
+        <div class="timeline-track" id="timeline-track">
+          <div class="timeline-line"></div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">MAR 2023</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">MAY 2024</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">SEP 2024</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">NOV 2024</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">FEB 2025</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-date">JUL 2025</span>
+              <h4>PLACEHOLDER</h4>
+              <p>PLACEHOLDER</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -255,6 +351,30 @@
     <h2 class="section-title reveal">Founders &amp; Board Members</h2>
     <p class="section-lede reveal">Hover a founder's ring to learn more about them.</p>
 
+    <div class="founders-hint reveal">
+      <svg class="hint-arrow hint-arrow-left" viewBox="0 0 120 70" fill="none">
+        <defs>
+          <marker id="arrowhead-left" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="white"/>
+          </marker>
+        </defs>
+        <path d="M100 15 C 70 12, 40 30, 20 55"
+              stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"
+              marker-end="url(#arrowhead-left)"/>
+      </svg>
+      <span class="hint-text">click me!</span>
+      <svg class="hint-arrow hint-arrow-right" viewBox="0 0 120 70" fill="none">
+        <defs>
+          <marker id="arrowhead-right" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="white"/>
+          </marker>
+        </defs>
+        <path d="M20 15 C 50 12, 80 30, 100 55"
+              stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"
+              marker-end="url(#arrowhead-right)"/>
+      </svg>
+    </div>
+        
     <div class="founders-grid">
       <div class="founder-orb reveal" tabindex="0" data-linkedin="https://www.linkedin.com/in/apurva-girish/">
         <div class="orb-ring"></div>
@@ -285,11 +405,11 @@
       <div class="marquee-track" id="board-marquee">
         <!-- EDIT ME: duplicate this block for each board member, then the script
              will auto-duplicate the whole set once more for a seamless loop -->
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#1</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#2</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#3</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#4</span></div>
-        <div class="marquee-member"><img src="assets/dogesh.PNG" alt=""><span>#5</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#1</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#2</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#3</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#4</span></div>
+        <div class="marquee-member"><img src="assets/default.jpg" alt=""><span>#5</span></div>
       </div>
     </div>
   </div>
@@ -378,29 +498,83 @@
     <h2 class="section-title reveal">Contact Us</h2>
     <p class="section-lede reveal">Questions, ideas, or want to collaborate? We'd love
       to hear from you.</p>
+    <div class="card-fan" id="card-fan">
+      <a class="fan-card" href="mailto:org.spaced@gmail.com" style="--i:0;" data-i="0">
+        <div class="fan-card-inner">
+          <div class="fan-card-face fan-card-front">
+            <div class="fan-card-band fan-card-band-mail">
+              <svg class="fan-card-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6.5L11.06 12.7C11.63 13.15 12.37 13.15 12.94 12.7L21 6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fan-card-face fan-card-back">
+            <span class="fan-card-back-label">Mail</span>
+            <span class="fan-card-back-value">org.spaced@gmail.com</span>
+            <span class="fan-card-back-cta">Open →</span>
+          </div>
+        </div>
+      </a>
 
-    <div class="contact-grid">
-      <a class="contact-card reveal" href="mailto:org.spaced@gmail.com">
-        <span class="contact-icon">✉</span>
-        <h3>Email</h3>
-        <p>org.spaced@gmail.com</p>
+      <a class="fan-card" href="https://www.instagram.com/wespaced_/" target="_blank" rel="noopener" style="--i:1;" data-i="1">
+        <div class="fan-card-inner">
+          <div class="fan-card-face fan-card-front">
+            <div class="fan-card-band fan-card-band-instagram">
+              <svg class="fan-card-icon" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="4.2" stroke="white" stroke-width="1.8"/>
+                <circle cx="17.4" cy="6.6" r="1.2" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fan-card-face fan-card-back">
+            <span class="fan-card-back-label">Instagram</span>
+            <span class="fan-card-back-value">@wespaced_</span>
+            <span class="fan-card-back-cta">Open →</span>
+          </div>
+        </div>
       </a>
-      <a class="contact-card reveal" href="https://www.instagram.com/wespaced_/" target="_blank" rel="noopener">
-        <span class="contact-icon">◎</span>
-        <h3>Instagram</h3>
-        <p>@wespaced_</p>
+
+      <a class="fan-card" href="https://www.youtube.com/@weSpaced" target="_blank" rel="noopener" style="--i:2;" data-i="2">
+        <div class="fan-card-inner">
+          <div class="fan-card-face fan-card-front">
+            <div class="fan-card-band fan-card-band-youtube">
+              <svg class="fan-card-icon" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M10 9L15 12L10 15V9Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fan-card-face fan-card-back">
+            <span class="fan-card-back-label">YouTube</span>
+            <span class="fan-card-back-value">@weSpaced</span>
+            <span class="fan-card-back-cta">Open →</span>
+          </div>
+        </div>
       </a>
-      <a class="contact-card reveal" href="https://www.youtube.com/@weSpaced" target="_blank" rel="noopener">
-        <span class="contact-icon">▶</span>
-        <h3>YouTube</h3>
-        <p>@weSpaced</p>
+
+      <a class="fan-card" href="https://www.linkedin.com/company/wespaced/posts/?feedView=all" target="_blank" rel="noopener" style="--i:3;" data-i="3">
+        <div class="fan-card-inner">
+          <div class="fan-card-face fan-card-front">
+            <div class="fan-card-band fan-card-band-linkedin">
+              <svg class="fan-card-icon" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M8 10.5V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="8" cy="7" r="1" fill="currentColor"/>
+                <path d="M12 17V12.5C12 11.1 12.9 10.5 14 10.5C15.1 10.5 16 11.1 16 12.5V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fan-card-face fan-card-back">
+            <span class="fan-card-back-label">LinkedIn</span>
+            <span class="fan-card-back-value">SPACED</span>
+            <span class="fan-card-back-cta">Open →</span>
+          </div>
+        </div>
       </a>
-      <a class="contact-card reveal" href="https://www.linkedin.com/company/wespaced/posts/?feedView=all" target="_blank" rel="noopener">
-        <span class="contact-icon">in</span>
-        <h3>LinkedIn</h3>
-        <p>SPACED</p>
-      </a>
-    </div>
+    </div>  
+
   </div>
 </section>
 
