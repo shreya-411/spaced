@@ -596,7 +596,8 @@ main{ position:relative; z-index:1; }
 }
 .timeline-pin .eyebrow{
   text-align: center;
-  margin-bottom: 175px; /* was 40px — more breathing room before the line/cards */
+  margin-bottom: 100px; /* was 40px — more breathing room before the line/cards */
+  margin-top: 50px;
 }
 .timeline-track{
   position: relative;
