@@ -1427,7 +1427,10 @@ main{ position:relative; z-index:1; }
 }
 
 .timeline-wrap,
-.timeline-pin,
-.timeline-track {
+.timeline-pin {
     overflow: visible !important;
+}
+
+.timeline-track {
+    overflow-x: auto !important;
 }
