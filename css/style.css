@@ -4129,3 +4129,9 @@ main{
     animation: none !important;
   }
 }
+
+.timeline-line{
+  left: 50% !important;
+  width: 2px !important;
+  transform: translateX(-50%) !important;
+}
