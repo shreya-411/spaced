@@ -6,6 +6,10 @@
    change trail length or color).
 ========================================================================= */
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ===================== YEAR IN FOOTER ===================== */
@@ -421,31 +425,452 @@ document.addEventListener('DOMContentLoaded', () => {
     mapCanvas.addEventListener('mouseleave', () => tooltip.style.opacity = '0');
   }
 /* ===================== FOUNDER ORB → LINKEDIN ===================== */
-document.querySelectorAll('.founder-orb').forEach(orb => {
-  orb.addEventListener('click', () => {
-    const linkedin = orb.getAttribute('data-linkedin');
-    if (linkedin){
-      window.open(linkedin, '_blank', 'noopener');
-    }
-  });
-  // keyboard accessibility, since you already have tabindex="0"
-  orb.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
+  document.querySelectorAll('.founder-orb').forEach(orb => {
+    orb.addEventListener('click', () => {
       const linkedin = orb.getAttribute('data-linkedin');
-      if (linkedin) window.open(linkedin, '_blank', 'noopener');
-    }
+      if (linkedin){
+        window.open(linkedin, '_blank', 'noopener');
+      }
+    });
+    orb.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        const linkedin = orb.getAttribute('data-linkedin');
+        if (linkedin) window.open(linkedin, '_blank', 'noopener');
+      }
+    });
   });
 });
 
-/* ===================== SCROLL TO TOP BUTTON ===================== */
-const scrollTopBtn = document.getElementById('scroll-top-btn');
-if (scrollTopBtn){
-  window.addEventListener('scroll', () => {
-    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
-  });
-  scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+/* ===================== SCROLL PROGRESS BAR ===================== */
+const scrollDots = document.querySelectorAll('.scroll-dot');
+const dotSections = document.querySelectorAll('main .section');
+const dotsFill = document.getElementById('scroll-dots-fill');
+
+if (scrollDots.length && dotSections.length){
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.getAttribute('id');
+        scrollDots.forEach(dot => {
+          dot.classList.toggle('active', dot.dataset.section === id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  dotSections.forEach(s => dotObserver.observe(s));
 }
+
+if (dotsFill){
+  function updateDotsFill(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    dotsFill.style.height = `${progress}%`;
+  }
+  window.addEventListener('scroll', updateDotsFill, { passive: true });
+  window.addEventListener('resize', updateDotsFill);
+  updateDotsFill();
+}
+/* ===================== NUMBER COUNTERS ===================== */
+const statNumbers = document.querySelectorAll('.stat-number');
+
+if (statNumbers.length){
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1500; // ms
+        const startTime = performance.now();
+
+        function animateCount(now){
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+          el.textContent = Math.floor(eased * target);
+
+          if (progress < 1){
+            requestAnimationFrame(animateCount);
+          } else {
+            el.textContent = target;
+          }
+        }
+
+        requestAnimationFrame(animateCount);
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(el => statObserver.observe(el));
+}
+/* ===================== HORIZONTAL SCROLL TIMELINE ===================== */
+const timelineWrap = document.getElementById('timeline-wrap');
+const timelineTrack = document.getElementById('timeline-track');
+
+if (timelineWrap && timelineTrack){
+  function updateTimeline(){
+    const rect = timelineWrap.getBoundingClientRect();
+    const wrapHeight = timelineWrap.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollRange = wrapHeight - viewportHeight;
+    let progress = scrolled / scrollRange;
+    progress = Math.min(Math.max(progress, 0), 1);
+
+    const trackWidth = timelineTrack.scrollWidth - window.innerWidth;
+    const translateX = -progress * trackWidth;
+
+    timelineTrack.style.transform = `translateX(${translateX}px)`;
+  }
+
+function positionTimelineLine(){
+  const dots = document.querySelectorAll('.timeline-dot');
+  const line = document.querySelector('.timeline-line');
+  if (!dots.length || !line) return;
+
+  const firstDot = dots[0];
+  const lastDot = dots[dots.length - 1];
+
+  // Get each dot's center position relative to .timeline-track (their common offsetParent)
+  const firstLeft = firstDot.offsetParent === lastDot.offsetParent
+    ? firstDot.parentElement.offsetLeft + firstDot.offsetLeft + firstDot.offsetWidth / 2
+    : 0;
+  const lastLeft = lastDot.parentElement.offsetLeft + lastDot.offsetLeft + lastDot.offsetWidth / 2;
+
+  line.style.left = `${firstLeft}px`;
+  line.style.width = `${lastLeft - firstLeft}px`;
+}
+
+// Call once on load, and again on resize (since layout/widths can change)
+positionTimelineLine();
+window.addEventListener('resize', positionTimelineLine);
+
+  window.addEventListener('scroll', updateTimeline, { passive: true });
+  window.addEventListener('resize', updateTimeline);
+  updateTimeline();
+  positionTimelineLine();
+}
+
+/* ===================== CONTACT CARD FAN-OUT ===================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const cardFan = document.getElementById('card-fan');
+  if (!cardFan) return;
+
+  const cards = Array.from(cardFan.querySelectorAll('.fan-card'));
+
+  const cardFanObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        cardFan.classList.add('spread');
+        cardFanObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  cardFanObserver.observe(cardFan);
+
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const hoveredIndex = parseInt(card.dataset.i, 10);
+
+      cards.forEach(c => {
+        const i = parseInt(c.dataset.i, 10);
+        const distance = i - hoveredIndex;
+
+        if (distance === 0){
+          c.style.setProperty('--push', '0px');
+        } else {
+          const magnitude = 50 / Math.sqrt(Math.abs(distance));
+          const push = distance > 0 ? magnitude : -magnitude;
+          c.style.setProperty('--push', `${push}px`);
+        }
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      cards.forEach(c => c.style.setProperty('--push', '0px'));
+    });
+  });
 });
+/* =============================================================
+   SUBSTACK BLOG INTEGRATION
+============================================================== */
+
+const SUBSTACK_RSS =
+  "https://spacedorg.substack.com/feed";
+
+const BLOG_CONTAINER =
+  document.getElementById("blog-container");
+
+
+async function loadSubstackPosts() {
+
+  // Make sure the blog container exists
+  if (!BLOG_CONTAINER) {
+    return;
+  }
+
+  try {
+
+    /*
+      We use rss2json to convert
+      Substack's RSS feed into JSON
+      that JavaScript can read.
+    */
+
+    const apiURL =
+      "https://api.rss2json.com/v1/api.json?rss_url="
+      + encodeURIComponent(SUBSTACK_RSS);
+
+
+    const response =
+      await fetch(apiURL);
+
+
+    if (!response.ok) {
+      throw new Error(
+        "Could not load Substack feed."
+      );
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data.items ||
+      data.items.length === 0
+    ) {
+
+      throw new Error(
+        "No Substack posts found."
+      );
+
+    }
+
+
+    /*
+      Get the three most recent
+      Substack posts.
+    */
+
+    const latestPosts =
+      data.items.slice(0, 3);
+
+
+    /*
+      Replace the loading message
+      with the actual blog cards.
+    */
+
+    BLOG_CONTAINER.innerHTML =
+      latestPosts
+        .map(
+          createBlogCard
+        )
+        .join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "SPACED Substack Error:",
+      error
+    );
+
+
+    /*
+      If something goes wrong,
+      show a fallback link to Substack.
+    */
+
+    BLOG_CONTAINER.innerHTML = `
+
+      <div class="blog-error">
+
+        <p>
+          We couldn't load our latest stories.
+        </p>
+
+        <br>
+
+        <a
+          href="https://spacedorg.substack.com/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+        >
+          Visit SPACED on Substack →
+        </a>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =============================================================
+   CREATE A BLOG CARD
+============================================================== */
+
+function createBlogCard(post) {
+
+  /*
+    Try to find an image
+    from the Substack post.
+  */
+
+  const image =
+    post.thumbnail ||
+    post.enclosure?.link ||
+    "";
+
+
+  /*
+    Format the publication date.
+  */
+
+  const date =
+    new Date(
+      post.pubDate
+    ).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      }
+    );
+
+
+  /*
+    Remove HTML tags from
+    the article description.
+  */
+
+  const description =
+    stripHTML(
+      post.description || ""
+    );
+
+
+  /*
+    Keep the preview short.
+  */
+
+  const shortDescription =
+    description.length > 140
+      ? description.substring(
+          0,
+          140
+        ) + "..."
+      : description;
+
+
+  return `
+
+    <a
+      class="blog-card"
+      href="${post.link}"
+      target="_blank"
+      rel="noopener"
+    >
+
+      ${
+        image
+        ? `
+          <div class="blog-card-image">
+
+            <img
+              src="${image}"
+              alt=""
+              loading="lazy"
+            >
+
+          </div>
+        `
+        : ""
+      }
+
+
+      <div class="blog-card-content">
+
+        <span class="blog-card-date">
+          ${date}
+        </span>
+
+        <h3>
+          ${escapeHTML(post.title)}
+        </h3>
+
+        <p>
+          ${escapeHTML(shortDescription)}
+        </p>
+
+        <span class="blog-read">
+          Read on Substack →
+        </span>
+
+      </div>
+
+    </a>
+
+  `;
+
+}
+
+
+/* =============================================================
+   REMOVE HTML FROM SUBSTACK DESCRIPTION
+============================================================== */
+
+function stripHTML(html) {
+
+  const temporaryElement =
+    document.createElement(
+      "div"
+    );
+
+  temporaryElement.innerHTML =
+    html;
+
+  return (
+    temporaryElement.textContent ||
+    temporaryElement.innerText ||
+    ""
+  );
+
+}
+
+
+/* =============================================================
+   ESCAPE HTML
+============================================================== */
+
+function escapeHTML(text) {
+
+  const element =
+    document.createElement(
+      "div"
+    );
+
+  element.textContent =
+    text;
+
+  return element.innerHTML;
+
+}
+
+
+/* =============================================================
+   START SUBSTACK BLOG
+============================================================== */
+
+loadSubstackPosts();
