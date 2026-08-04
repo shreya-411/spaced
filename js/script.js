@@ -511,49 +511,57 @@ const timelineWrap = document.getElementById('timeline-wrap');
 const timelineTrack = document.getElementById('timeline-track');
 
 if (timelineWrap && timelineTrack){
-  function updateTimeline(){
-    const rect = timelineWrap.getBoundingClientRect();
-    const wrapHeight = timelineWrap.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const scrolled = -rect.top;
-    const scrollRange = wrapHeight - viewportHeight;
-    let progress = scrolled / scrollRange;
-    progress = Math.min(Math.max(progress, 0), 1);
+  // 1. Line Positioning Logic
+  function positionTimelineLine(){
+    const dots = document.querySelectorAll('.timeline-dot');
+    const line = document.querySelector('.timeline-line');
+    if (!dots.length || !line) return;
 
-    const trackWidth = timelineTrack.scrollWidth - window.innerWidth;
-    const translateX = -progress * trackWidth;
+    const firstDot = dots[0];
+    const lastDot = dots[dots.length - 1];
 
-    timelineTrack.style.transform = `translateX(${translateX}px)`;
+    const firstLeft = firstDot.offsetParent === lastDot.offsetParent
+      ? firstDot.parentElement.offsetLeft + firstDot.offsetLeft + firstDot.offsetWidth / 2
+      : 0;
+    const lastLeft = lastDot.parentElement.offsetLeft + lastDot.offsetLeft + lastDot.offsetWidth / 2;
+
+    line.style.left = `${firstLeft}px`;
+    line.style.width = `${lastLeft - firstLeft}px`;
   }
 
-function positionTimelineLine(){
-  const dots = document.querySelectorAll('.timeline-dot');
-  const line = document.querySelector('.timeline-line');
-  if (!dots.length || !line) return;
-
-  const firstDot = dots[0];
-  const lastDot = dots[dots.length - 1];
-
-  // Get each dot's center position relative to .timeline-track (their common offsetParent)
-  const firstLeft = firstDot.offsetParent === lastDot.offsetParent
-    ? firstDot.parentElement.offsetLeft + firstDot.offsetLeft + firstDot.offsetWidth / 2
-    : 0;
-  const lastLeft = lastDot.parentElement.offsetLeft + lastDot.offsetLeft + lastDot.offsetWidth / 2;
-
-  line.style.left = `${firstLeft}px`;
-  line.style.width = `${lastLeft - firstLeft}px`;
-}
-
-// Call once on load, and again on resize (since layout/widths can change)
-positionTimelineLine();
-window.addEventListener('resize', positionTimelineLine);
-
-  window.addEventListener('scroll', updateTimeline, { passive: true });
-  window.addEventListener('resize', updateTimeline);
-  updateTimeline();
   positionTimelineLine();
-}
+  window.addEventListener('resize', positionTimelineLine);
 
+  // 2. High-Performance Click-and-Drag Logic
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  let rafId = null;
+
+  timelineTrack.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - timelineTrack.offsetLeft;
+    scrollLeft = timelineTrack.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  timelineTrack.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    
+    const x = e.pageX - timelineTrack.offsetLeft;
+    const walk = (x - startX) * 1.5; // Drag sensitivity multiplier
+
+    // Throttle via requestAnimationFrame to stop layout lag
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      timelineTrack.scrollLeft = scrollLeft - walk;
+    });
+  });
+}
 /* ===================== CONTACT CARD FAN-OUT ===================== */
 document.addEventListener('DOMContentLoaded', () => {
   const cardFan = document.getElementById('card-fan');

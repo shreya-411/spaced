@@ -582,17 +582,17 @@ main{ position:relative; z-index:1; }
 }
 .timeline-wrap{
   position: relative;
-  height: 300vh; /* scroll room for the horizontal journey */
+  height: auto; /* Changed from 300vh */
   margin-top: 80px;
 }
 .timeline-pin{
-  position: sticky;
-  top: 0;
-  height: 75vh;
+  position: relative; /* Changed from sticky */
+  top: auto; /* Removed 0 */
+  height: auto; /* Changed from 75vh */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden */
 }
 .timeline-pin .eyebrow{
   text-align: center;
@@ -603,9 +603,25 @@ main{ position:relative; z-index:1; }
   display: flex;
   align-items: center;
   gap: 120px;
-  padding: 0 50vw;
-  will-change: transform;
-  height: 320px; /* fixed height so top/bottom alternation has room */
+  padding: 60px 40px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 420px;
+  cursor: grab;
+  user-select: none;
+  
+  /* Hide scrollbars cleanly */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.timeline-track::-webkit-scrollbar {
+  display: none;
+}
+.timeline-track:active {
+  cursor: grabbing;
+}
+.timeline-track:active {
+  cursor: grabbing;
 }
 .timeline-line{
   position: absolute;
@@ -624,6 +640,7 @@ main{ position:relative; z-index:1; }
   display: flex;
   flex-direction: column;
   justify-content: center;
+  scroll-snap-align: start;
 }
 .timeline-dot{
   position: absolute;
