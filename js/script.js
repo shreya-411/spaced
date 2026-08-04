@@ -6,6 +6,10 @@
    change trail length or color).
 ========================================================================= */
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ===================== YEAR IN FOOTER ===================== */
@@ -434,6 +438,160 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkedin = orb.getAttribute('data-linkedin');
         if (linkedin) window.open(linkedin, '_blank', 'noopener');
       }
+    });
+  });
+});
+
+/* ===================== SCROLL PROGRESS BAR ===================== */
+const scrollDots = document.querySelectorAll('.scroll-dot');
+const dotSections = document.querySelectorAll('main .section');
+const dotsFill = document.getElementById('scroll-dots-fill');
+
+if (scrollDots.length && dotSections.length){
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.getAttribute('id');
+        scrollDots.forEach(dot => {
+          dot.classList.toggle('active', dot.dataset.section === id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  dotSections.forEach(s => dotObserver.observe(s));
+}
+
+if (dotsFill){
+  function updateDotsFill(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    dotsFill.style.height = `${progress}%`;
+  }
+  window.addEventListener('scroll', updateDotsFill, { passive: true });
+  window.addEventListener('resize', updateDotsFill);
+  updateDotsFill();
+}
+/* ===================== NUMBER COUNTERS ===================== */
+const statNumbers = document.querySelectorAll('.stat-number');
+
+if (statNumbers.length){
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1500; // ms
+        const startTime = performance.now();
+
+        function animateCount(now){
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+          el.textContent = Math.floor(eased * target);
+
+          if (progress < 1){
+            requestAnimationFrame(animateCount);
+          } else {
+            el.textContent = target;
+          }
+        }
+
+        requestAnimationFrame(animateCount);
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(el => statObserver.observe(el));
+}
+/* ===================== HORIZONTAL SCROLL TIMELINE ===================== */
+const timelineWrap = document.getElementById('timeline-wrap');
+const timelineTrack = document.getElementById('timeline-track');
+
+if (timelineWrap && timelineTrack){
+  function updateTimeline(){
+    const rect = timelineWrap.getBoundingClientRect();
+    const wrapHeight = timelineWrap.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollRange = wrapHeight - viewportHeight;
+    let progress = scrolled / scrollRange;
+    progress = Math.min(Math.max(progress, 0), 1);
+
+    const trackWidth = timelineTrack.scrollWidth - window.innerWidth;
+    const translateX = -progress * trackWidth;
+
+    timelineTrack.style.transform = `translateX(${translateX}px)`;
+  }
+
+function positionTimelineLine(){
+  const dots = document.querySelectorAll('.timeline-dot');
+  const line = document.querySelector('.timeline-line');
+  if (!dots.length || !line) return;
+
+  const firstDot = dots[0];
+  const lastDot = dots[dots.length - 1];
+
+  // Get each dot's center position relative to .timeline-track (their common offsetParent)
+  const firstLeft = firstDot.offsetParent === lastDot.offsetParent
+    ? firstDot.parentElement.offsetLeft + firstDot.offsetLeft + firstDot.offsetWidth / 2
+    : 0;
+  const lastLeft = lastDot.parentElement.offsetLeft + lastDot.offsetLeft + lastDot.offsetWidth / 2;
+
+  line.style.left = `${firstLeft}px`;
+  line.style.width = `${lastLeft - firstLeft}px`;
+}
+
+// Call once on load, and again on resize (since layout/widths can change)
+positionTimelineLine();
+window.addEventListener('resize', positionTimelineLine);
+
+  window.addEventListener('scroll', updateTimeline, { passive: true });
+  window.addEventListener('resize', updateTimeline);
+  updateTimeline();
+  positionTimelineLine();
+}
+
+/* ===================== CONTACT CARD FAN-OUT ===================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const cardFan = document.getElementById('card-fan');
+  if (!cardFan) return;
+
+  const cards = Array.from(cardFan.querySelectorAll('.fan-card'));
+
+  const cardFanObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        cardFan.classList.add('spread');
+        cardFanObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  cardFanObserver.observe(cardFan);
+
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const hoveredIndex = parseInt(card.dataset.i, 10);
+
+      cards.forEach(c => {
+        const i = parseInt(c.dataset.i, 10);
+        const distance = i - hoveredIndex;
+
+        if (distance === 0){
+          c.style.setProperty('--push', '0px');
+        } else {
+          const magnitude = 50 / Math.sqrt(Math.abs(distance));
+          const push = distance > 0 ? magnitude : -magnitude;
+          c.style.setProperty('--push', `${push}px`);
+        }
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      cards.forEach(c => c.style.setProperty('--push', '0px'));
     });
   });
 });
