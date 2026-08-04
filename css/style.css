@@ -1500,7 +1500,368 @@ main{
   color: var(--text-dim);
 }
 
+/* =========================================================================
+   OUR JOURNEY — TIMELINE
+========================================================================= */
 
+.timeline-wrap{
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 80px auto 0;
+}
+
+.timeline-pin{
+  position: relative;
+}
+
+.timeline-track{
+  position: relative;
+  width: 100%;
+  padding: 60px 0 80px;
+}
+
+
+/* -----------------------------------------
+   CENTER TIMELINE LINE
+----------------------------------------- */
+
+.timeline-line{
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: 50%;
+
+  width: 2px;
+
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--teal),
+      var(--lavender)
+    );
+
+  box-shadow:
+    0 0 12px rgba(77,217,192,0.25);
+
+  z-index: 0;
+}
+
+
+/* -----------------------------------------
+   TIMELINE ITEM
+----------------------------------------- */
+
+.timeline-item{
+  position: relative;
+
+  width: 50%;
+
+  min-height: 180px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 30px 50px;
+
+  z-index: 1;
+}
+
+
+/* Left-side cards */
+
+.timeline-item:nth-child(odd){
+  margin-left: 0;
+
+  justify-content: flex-end;
+
+  text-align: right;
+}
+
+
+/* Right-side cards */
+
+.timeline-item:nth-child(even){
+  margin-left: 50%;
+
+  justify-content: flex-start;
+
+  text-align: left;
+}
+
+
+/* -----------------------------------------
+   TIMELINE DOT
+----------------------------------------- */
+
+.timeline-dot{
+  position: absolute;
+
+  top: 50%;
+  left: 100%;
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  background: var(--black);
+
+  border: 3px solid var(--teal);
+
+  box-shadow:
+    0 0 0 5px rgba(77,217,192,0.12),
+    0 0 20px rgba(77,217,192,0.4);
+
+  transform: translate(-50%, -50%);
+
+  z-index: 3;
+
+  transition:
+    transform .3s var(--ease),
+    background .3s var(--ease),
+    box-shadow .3s var(--ease);
+}
+
+
+/* Right-side dots */
+
+.timeline-item:nth-child(even) .timeline-dot{
+  left: 0;
+}
+
+
+/* Dot hover */
+
+.timeline-item:hover .timeline-dot{
+  background: var(--teal);
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.35);
+
+  box-shadow:
+    0 0 0 7px rgba(77,217,192,0.12),
+    0 0 30px rgba(77,217,192,0.6);
+}
+
+
+/* -----------------------------------------
+   TIMELINE CARD
+----------------------------------------- */
+
+.timeline-card{
+  width: min(400px, 100%);
+
+  padding: 26px 28px;
+
+  background:
+    linear-gradient(
+      160deg,
+      var(--card-bg),
+      var(--black)
+    );
+
+  border:
+    1px solid
+    var(--card-border);
+
+  border-radius: 18px;
+
+  transition:
+    transform .35s var(--ease),
+    border-color .35s var(--ease),
+    box-shadow .35s var(--ease);
+}
+
+
+/* Card hover */
+
+.timeline-item:hover .timeline-card{
+  border-color:
+    rgba(77,217,192,0.5);
+
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.35),
+    0 0 25px rgba(77,217,192,0.08);
+}
+
+
+/* Left card hover */
+
+.timeline-item:nth-child(odd):hover .timeline-card{
+  transform: translateX(-6px);
+}
+
+
+/* Right card hover */
+
+.timeline-item:nth-child(even):hover .timeline-card{
+  transform: translateX(6px);
+}
+
+
+/* -----------------------------------------
+   TIMELINE DATE
+----------------------------------------- */
+
+.timeline-date{
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-family: var(--font-mono);
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+
+  color: var(--teal);
+
+  text-transform: uppercase;
+}
+
+
+/* -----------------------------------------
+   TIMELINE TITLE
+----------------------------------------- */
+
+.timeline-card h4{
+  margin: 0 0 8px;
+
+  font-family: var(--font-display);
+
+  font-size: 21px;
+
+  line-height: 1.2;
+
+  color: var(--white);
+}
+
+
+/* -----------------------------------------
+   TIMELINE DESCRIPTION
+----------------------------------------- */
+
+.timeline-card p{
+  margin: 0;
+
+  color: var(--text-dim);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================================
+   OUR JOURNEY — TABLET
+========================================================================= */
+
+@media (max-width: 900px){
+
+  .timeline-wrap{
+    margin-top: 60px;
+  }
+
+  .timeline-track{
+    padding: 40px 0 60px;
+  }
+
+  .timeline-item{
+    padding:
+      25px 35px;
+  }
+
+  .timeline-card{
+    padding: 22px;
+  }
+
+}
+
+
+/* =========================================================================
+   OUR JOURNEY — MOBILE
+========================================================================= */
+
+@media (max-width: 560px){
+
+  .timeline-wrap{
+    margin-top: 50px;
+  }
+
+  .timeline-track{
+    padding:
+      30px 0
+      30px 20px;
+  }
+
+
+  /* Move timeline to the left */
+
+  .timeline-line{
+    left: 10px;
+
+    transform: none;
+  }
+
+
+  /* All timeline items become one column */
+
+  .timeline-item,
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even){
+
+    width: 100%;
+
+    margin-left: 0;
+
+    min-height: auto;
+
+    padding:
+      20px 0
+      20px 35px;
+
+    justify-content: flex-start;
+
+    text-align: left;
+  }
+
+
+  /* All dots align to left line */
+
+  .timeline-dot,
+  .timeline-item:nth-child(even) .timeline-dot{
+
+    left: -10px;
+
+    top: 50%;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  /* Card hover */
+
+  .timeline-item:nth-child(odd):hover .timeline-card,
+  .timeline-item:nth-child(even):hover .timeline-card{
+
+    transform:
+      translateX(4px);
+  }
+
+
+  .timeline-card{
+    width: 100%;
+
+    padding: 22px;
+  }
+
+}
 /* =========================================================================
    FOUNDERS & BOARD
 ========================================================================= */
