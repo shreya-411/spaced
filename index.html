@@ -390,40 +390,159 @@
     </div>
   </div>
 </section>
-
 <!-- =============================================================
-  ALBUM
+  ALBUM / MEMORY WALL
 ============================================================== -->
 <section id="album" class="section album-section">
 
-  <div id="album-modal" class="album-modal" aria-hidden="true">
-  <div class="album-modal-backdrop" data-close-modal></div>
-  <div class="album-modal-panel">
-    <button class="album-modal-close" data-close-modal aria-label="Close gallery">&times;</button>
-    <div class="album-modal-list" id="album-modal-list"></div>
-    <div class="album-modal-viewer">
-      <img id="album-modal-image" src="" alt="">
-      <p id="album-modal-caption"></p>
-    </div>
-  </div>
-  </div>
-
   <div class="section-inner">
-    <p class="eyebrow reveal">MOMENTS</p>
-    <h2 class="section-title reveal">Album</h2>
-    <p class="section-lede reveal">Snapshots from stargazing nights, workshops, and the
-      cosmos that inspired us. <!-- EDIT ME: swap these for your own event photos --></p>
 
-    <div class="album-grid">
-      <a href="album.html?img=0" target="_blank" rel="noopener" class="album-item reveal album-tall"><img src="assets/album-pics/img1.jpg" alt="Event Photo 1"></a>
-      <a href="album.html?img=4" target="_blank" rel="noopener" class="album-item reveal album-wide"><img src="assets/album-pics/img5.jpg" alt="Event Photo 2"></a>
-      <a href="album.html?img=2" target="_blank" rel="noopener" class="album-item reveal album-square"><img src="assets/album-pics/img3.jpg" alt="Event Photo 3"></a>
-      <a href="album.html?img=3" target="_blank" rel="noopener" class="album-item reveal album-wide"><img src="assets/album-pics/img4.jpg" alt="Event Photo 4"></a>
-      <a href="album.html" target="_blank" rel="noopener" class="album-item reveal album-view-all">
-        <span>View All →</span>
-      </a>  
+    <!-- Album Introduction -->
+    <div class="album-intro">
+      <p class="eyebrow reveal">MOMENTS</p>
+
+      <h2 class="section-title reveal">
+        Memories, <span class="grad-text">in orbit.</span>
+      </h2>
+
+      <p class="section-lede reveal">
+        A collection of moments from the people, events, workshops,
+        and experiences that make SPACED what it is.
+      </p>
     </div>
+
+
+    <!-- =========================================================
+      ALBUM PREVIEW
+      This is what visitors see initially.
+      No redirect to album.html.
+    ========================================================== -->
+
+    <div class="album-preview reveal">
+
+      <div class="album-preview-image album-preview-image-1">
+        <img
+          src="assets/album-pics/img1.jpg"
+          alt="SPACED event memory"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="album-preview-image album-preview-image-2">
+        <img
+          src="assets/album-pics/img3.jpg"
+          alt="SPACED event memory"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="album-preview-image album-preview-image-3">
+        <img
+          src="assets/album-pics/img5.jpg"
+          alt="SPACED event memory"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="album-preview-note">
+        <span>OUR MEMORIES</span>
+        <strong>Scroll through<br>the moments.</strong>
+      </div>
+
+    </div>
+
+
+    <!-- =========================================================
+      ALBUM CTA
+      Opens the memory wall INSIDE the same page.
+    ========================================================== -->
+
+    <div class="album-cta reveal">
+
+      <button
+        id="open-memory-wall"
+        class="btn btn-primary"
+        type="button"
+        aria-expanded="false"
+        aria-controls="memory-wall"
+      >
+        Explore the Album →
+      </button>
+
+    </div>
+
+
+    <!-- =========================================================
+      MEMORY WALL
+      Hidden until "Explore the Album" is clicked.
+      
+      IMPORTANT:
+      The JavaScript will dynamically populate
+      #memory-wall-grid with the memories.
+    ========================================================== -->
+
+    <div
+      id="memory-wall"
+      class="memory-wall"
+      aria-hidden="true"
+    >
+
+      <!-- Memory Wall Header -->
+
+      <div class="memory-wall-header">
+
+        <div>
+          <p class="eyebrow">THE SPACED MEMORY WALL</p>
+
+          <h3>
+            Moments that
+            <span class="grad-text">stayed with us.</span>
+          </h3>
+        </div>
+
+        <button
+          id="close-memory-wall"
+          class="memory-wall-close"
+          type="button"
+          aria-label="Close memory wall"
+        >
+          <span>Close</span>
+          <strong>×</strong>
+        </button>
+
+      </div>
+
+
+      <!-- =======================================================
+        MEMORY WALL CONTENT
+        
+        JavaScript creates the photos here.
+      ======================================================== -->
+
+      <div
+        id="memory-wall-grid"
+        class="memory-wall-grid"
+      ></div>
+
+
+      <!-- Bottom marker -->
+
+      <div class="memory-wall-end">
+
+        <span class="memory-wall-end-line"></span>
+
+        <p>
+          End of our current orbit.
+        </p>
+
+        <span class="memory-wall-end-line"></span>
+
+      </div>
+
+    </div>
+
   </div>
+
 </section>
 
 <!-- =============================================================
