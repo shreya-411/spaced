@@ -1208,171 +1208,660 @@ main{ position:relative; z-index:1; }
 .center-cta{ display:flex; justify-content:center; margin-top: 94px; }
 
 /* =========================================================================
-   CONTACT
+   CONTACT — DYNAMIC COLLAPSING / EXPANDING CARDS
 ========================================================================= */
-.card-fan{
+
+.card-fan {
   position: relative;
-  width: 300px;
-  height: 400px;
-  margin: 150px auto -150px;
+
+  width: 100%;
+  max-width: 1200px;
+
+  min-height: 240px;
+
+  margin: 100px auto 0;
+
+  padding: 30px 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
   perspective: 1400px;
 }
 
-.fan-card{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 80px;
-  border-radius: 18px;
-  background: linear-gradient(160deg, var(--card-bg), var(--black));
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.8);
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--white);
 
-  --push: 0px;
-  --spread: 0px;
-  transform: translateY(calc(var(--spread) + var(--push)));
-  transform-origin: top center;
-  z-index: var(--i);
+/* =========================================================================
+   CONTACT CARDS
+========================================================================= */
 
-  transition: transform .7s var(--ease), box-shadow .35s var(--ease), z-index 0s;
-}
-
-.card-fan.spread .fan-card{
-  --spread: calc(var(--i) * 60px);
-}
-
-.fan-card:has(+ .fan-card:hover),
-.fan-card:hover{
-  box-shadow: 0 18px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(77,217,192,0.35);
-}
-
-.fan-card:focus-visible{
-  outline: 2px solid var(--teal);
-  outline-offset: 3px;
-}
-
-.fan-card.active{
-  transform: translateY(220px);
-  z-index: 10;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.65);
-}
-
-.fan-card-inner{
+.fan-card {
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform .6s var(--ease);
+
+  flex: 0 0 180px;
+
+  width: 180px;
+  height: 180px;
+
+  /* Creates the collapsed / stacked look */
+  margin-left: -115px;
+
   border-radius: 18px;
-}
 
-.fan-card.active .fan-card-inner{
-  transform: rotateY(180deg);
-}
+  background:
+    linear-gradient(
+      160deg,
+      var(--card-bg),
+      var(--black)
+    );
 
-.fan-card-face{
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 22px;
-  gap: 14px;
-}
+  box-shadow:
+    0 20px 30px
+    rgba(0, 0, 0, 0.8);
 
-.fan-card-front{
-  padding: 0;
-}
+  cursor: pointer;
 
-.fan-card-band{
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  text-decoration: none;
 
-.fan-card-band-mail{ background: linear-gradient(135deg, #4DD9C0, #3A9E9B); }
-.fan-card-band-instagram{
-  background: radial-gradient(circle at 30% 107%,
-    #fdf497 0%,
-    #fdf497 5%,
-    #fd5949 45%,
-    #d6249f 60%,
-    #285AEB 90%
-  );
-}
-.fan-card-band-youtube{ background: #c00b0b; }
-.fan-card-band-linkedin{ background: #0A66C2; }
-
-.fan-card-icon{
-  width: 32px;
-  height: 32px;
-  color: white;
-}
-.fan-card-label{
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 18px;
   color: var(--white);
+
+  transform:
+    translateY(0)
+    rotate(0deg);
+
+  transform-origin:
+    center;
+
+  z-index:
+    var(--i, 1);
+
+  transition:
+    margin .7s var(--ease),
+    transform .45s var(--ease),
+    box-shadow .35s var(--ease),
+    z-index .2s ease;
+
+  overflow:
+    visible;
 }
 
-.fan-card-back{
-  background: linear-gradient(160deg, var(--teal), var(--dark-teal));
-  color: var(--black);
-  transform: rotateY(180deg);
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 6px;
+
+/* First card should not have negative margin */
+
+.fan-card:first-child {
+  margin-left:
+    0;
 }
 
-.fan-card-back-label{
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.7;
+
+/* =========================================================================
+   EXPAND CARDS WHEN MOUSE ENTERS CONTACT AREA
+========================================================================= */
+
+.card-fan:hover .fan-card {
+  margin-left:
+    10px;
 }
 
-.fan-card-back-value{
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 19px;
-  margin-bottom: 10px;
+
+/* =========================================================================
+   INDIVIDUAL CARD HOVER
+========================================================================= */
+
+.card-fan:hover .fan-card:hover {
+  transform:
+    translateY(-14px)
+    scale(1.04);
+
+  z-index:
+    20;
+
+  box-shadow:
+    0 25px 50px
+    rgba(0, 0, 0, 0.7),
+
+    0 0 0 1px
+    rgba(77, 217, 192, 0.5),
+
+    0 0 30px
+    rgba(77, 217, 192, 0.15);
 }
 
-.fan-card-back-cta{
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 14px;
+
+/* =========================================================================
+   KEYBOARD ACCESSIBILITY
+========================================================================= */
+
+.fan-card:focus-visible {
+  outline:
+    2px solid
+    var(--teal);
+
+  outline-offset:
+    4px;
 }
 
-@media (max-width: 480px){
-  .card-fan{ width: 240px; height: 320px; }
-  .fan-card{ width: 220px; height: 140px; }
-  .fan-card.active{ transform: translateY(180px); }
+
+/* =========================================================================
+   CARD INNER — FLIP CONTAINER
+========================================================================= */
+
+.fan-card-inner {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  transform-style:
+    preserve-3d;
+
+  transition:
+    transform .6s var(--ease);
+
+  border-radius:
+    18px;
 }
 
-@media (prefers-reduced-motion: reduce){
-  .fan-card, .fan-card-inner{ transition: none; }
-}
-.contact-card{
-  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;
-  padding: 28px 20px; text-align:center;
-  transition: transform .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
-}
-.contact-card:hover{ transform: translateY(-6px); border-color: var(--teal); background: rgba(77,217,192,0.06); }
-.contact-icon{ font-size: 26px; color: var(--teal); display:inline-block; margin-bottom:12px; }
-.contact-card h3{ font-family: var(--font-display); font-size:17px; margin:0 0 6px; }
-.contact-card p{ color: var(--text-dim); font-size: 13.5px; margin:0; word-break: break-word; }
 
+/* Flip the card when active */
+
+.fan-card.active .fan-card-inner {
+  transform:
+    rotateY(180deg);
+}
+
+
+/* =========================================================================
+   CARD FRONT + BACK
+========================================================================= */
+
+.fan-card-face {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  backface-visibility:
+    hidden;
+
+  -webkit-backface-visibility:
+    hidden;
+
+  border-radius:
+    18px;
+
+  display:
+    flex;
+
+  flex-direction:
+    row;
+
+  align-items:
+    center;
+
+  padding:
+    22px;
+
+  gap:
+    14px;
+
+  box-sizing:
+    border-box;
+}
+
+
+/* =========================================================================
+   FRONT OF CARD
+========================================================================= */
+
+.fan-card-front {
+  padding:
+    0;
+}
+
+
+/* =========================================================================
+   COLOUR BANDS
+========================================================================= */
+
+.fan-card-band {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  border-radius:
+    18px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+}
+
+
+/* Email */
+
+.fan-card-band-mail {
+  background:
+    linear-gradient(
+      135deg,
+      #4DD9C0,
+      #3A9E9B
+    );
+}
+
+
+/* Instagram */
+
+.fan-card-band-instagram {
+  background:
+    radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285AEB 90%
+    );
+}
+
+
+/* YouTube */
+
+.fan-card-band-youtube {
+  background:
+    #c00b0b;
+}
+
+
+/* LinkedIn */
+
+.fan-card-band-linkedin {
+  background:
+    #0A66C2;
+}
+
+
+/* =========================================================================
+   ICON
+========================================================================= */
+
+.fan-card-icon {
+  width:
+    32px;
+
+  height:
+    32px;
+
+  color:
+    white;
+}
+
+
+/* =========================================================================
+   CARD LABEL
+========================================================================= */
+
+.fan-card-label {
+  font-family:
+    var(--font-display);
+
+  font-weight:
+    600;
+
+  font-size:
+    18px;
+
+  color:
+    var(--white);
+}
+
+
+/* =========================================================================
+   BACK OF CARD
+========================================================================= */
+
+.fan-card-back {
+  background:
+    linear-gradient(
+      160deg,
+      var(--teal),
+      var(--dark-teal)
+    );
+
+  color:
+    var(--black);
+
+  transform:
+    rotateY(180deg);
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+}
+
+
+/* =========================================================================
+   BACK LABEL
+========================================================================= */
+
+.fan-card-back-label {
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    2px;
+
+  text-transform:
+    uppercase;
+
+  opacity:
+    0.7;
+}
+
+
+/* =========================================================================
+   HANDLE / USERNAME
+========================================================================= */
+
+.fan-card-back-value {
+  font-family:
+    var(--font-display);
+
+  font-weight:
+    700;
+
+  font-size:
+    19px;
+
+  margin-bottom:
+    10px;
+
+  word-break:
+    break-word;
+}
+
+
+/* =========================================================================
+   BACK CTA
+========================================================================= */
+
+.fan-card-back-cta {
+  font-family:
+    var(--font-body);
+
+  font-weight:
+    600;
+
+  font-size:
+    14px;
+}
+
+
+/* =========================================================================
+   TABLET
+========================================================================= */
+
+@media (max-width: 900px) {
+
+  .card-fan {
+    max-width:
+      700px;
+
+    padding:
+      30px 20px;
+
+    min-height:
+      220px;
+  }
+
+
+  .fan-card {
+    flex:
+      0 0 150px;
+
+    width:
+      150px;
+
+    height:
+      150px;
+
+    margin-left:
+      -90px;
+  }
+
+
+  .card-fan:hover .fan-card {
+    margin-left:
+      5px;
+  }
+
+
+  .fan-card-label {
+    font-size:
+      16px;
+  }
+
+
+  .fan-card-back-value {
+    font-size:
+      16px;
+  }
+
+}
+
+
+/* =========================================================================
+   MOBILE
+========================================================================= */
+
+@media (max-width: 560px) {
+
+  .card-fan {
+    width:
+      100%;
+
+    max-width:
+      400px;
+
+    min-height:
+      auto;
+
+    margin:
+      60px auto 0;
+
+    padding:
+      20px;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      14px;
+  }
+
+
+  /* Reset collapsed desktop positioning */
+
+  .fan-card,
+  .fan-card:first-child {
+    width:
+      100%;
+
+    height:
+      120px;
+
+    flex:
+      none;
+
+    margin-left:
+      0;
+  }
+
+
+  /* Don't spread horizontally on mobile */
+
+  .card-fan:hover .fan-card {
+    margin-left:
+      0;
+  }
+
+
+  /* Mobile hover effect */
+
+  .card-fan:hover .fan-card:hover {
+    transform:
+      translateY(-5px)
+      scale(1.02);
+  }
+
+
+  .fan-card-label {
+    font-size:
+      16px;
+  }
+
+
+  .fan-card-back-value {
+    font-size:
+      16px;
+  }
+
+
+  .fan-card-back-cta {
+    font-size:
+      13px;
+  }
+
+}
+
+
+/* =========================================================================
+   REDUCED MOTION
+========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .fan-card,
+  .fan-card-inner {
+    transition:
+      none;
+  }
+
+}
+
+
+/* =========================================================================
+   LEGACY CONTACT CARD
+   Keep this if other parts of the site use .contact-card
+========================================================================= */
+
+.contact-card {
+  background:
+    var(--card-bg);
+
+  border:
+    1px solid
+    var(--card-border);
+
+  border-radius:
+    18px;
+
+  padding:
+    28px 20px;
+
+  text-align:
+    center;
+
+  transition:
+    transform .35s var(--ease),
+    border-color .35s var(--ease),
+    background .35s var(--ease);
+}
+
+
+.contact-card:hover {
+  transform:
+    translateY(-6px);
+
+  border-color:
+    var(--teal);
+
+  background:
+    rgba(77, 217, 192, 0.06);
+}
+
+
+.contact-icon {
+  font-size:
+    26px;
+
+  color:
+    var(--teal);
+
+  display:
+    inline-block;
+
+  margin-bottom:
+    12px;
+}
+
+
+.contact-card h3 {
+  font-family:
+    var(--font-display);
+
+  font-size:
+    17px;
+
+  margin:
+    0 0 6px;
+}
+
+
+.contact-card p {
+  color:
+    var(--text-dim);
+
+  font-size:
+    13.5px;
+
+  margin:
+    0;
+
+  word-break:
+    break-word;
+}
 /* =========================================================================
    FOOTER
 ========================================================================= */
