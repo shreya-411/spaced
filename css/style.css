@@ -1402,3 +1402,9 @@ main{ position:relative; z-index:1; }
   .cta-band{ padding: 30px 24px; }
   #sidebar{ width: 82vw; }
 }
+
+.timeline-wrap,
+.timeline-pin,
+.timeline-track {
+    overflow: visible !important;
+}
