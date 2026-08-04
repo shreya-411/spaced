@@ -410,17 +410,15 @@
         and experiences that make SPACED what it is.
       </p>
     </div>
-
-
     <!-- =========================================================
       ALBUM PREVIEW
       This is what visitors see initially.
       No redirect to album.html.
     ========================================================== -->
 
-    <div class="album-preview reveal">
+    <div class="album-preview reveal album-preview-container">
 
-      <div class="album-preview-image album-preview-image-1">
+      <div class="album-preview-image album-preview-image-1 album-preview-img">
         <img
           src="assets/album-pics/img1.jpg"
           alt="SPACED event memory"
@@ -428,7 +426,7 @@
         >
       </div>
 
-      <div class="album-preview-image album-preview-image-2">
+      <div class="album-preview-image album-preview-image-2 album-preview-img">
         <img
           src="assets/album-pics/img3.jpg"
           alt="SPACED event memory"
@@ -436,29 +434,17 @@
         >
       </div>
 
-      <div class="album-preview-image album-preview-image-3">
+      <div class="album-preview-image album-preview-image-3 album-preview-img">
         <img
-          src="assets/album-pics/img5.jpg"
+          src="assets/album-pics/img2.jpg"
           alt="SPACED event memory"
           loading="lazy"
         >
       </div>
 
-      <div class="album-preview-note">
-        <span>OUR MEMORIES</span>
-        <strong>Scroll through<br>the moments.</strong>
-      </div>
-
     </div>
-
-
-    <!-- =========================================================
-      ALBUM CTA
-      Opens the memory wall INSIDE the same page.
-    ========================================================== -->
-
+    </div>
     <div class="album-cta reveal">
-
       <button
         id="open-memory-wall"
         class="btn btn-primary"
@@ -468,79 +454,41 @@
       >
         Explore the Album →
       </button>
-
     </div>
 
-
     <!-- =========================================================
-      MEMORY WALL
-      Hidden until "Explore the Album" is clicked.
+    ALBUM POPUP GALLERY OVERLAY
+  ========================================================== -->
+    <div id="album-popup-overlay" class="album-popup-overlay" aria-hidden="true">
+      <div class="album-popup-backdrop" id="album-popup-close-backdrop"></div>
       
-      IMPORTANT:
-      The JavaScript will dynamically populate
-      #memory-wall-grid with the memories.
-    ========================================================== -->
-
-    <div
-      id="memory-wall"
-      class="memory-wall"
-      aria-hidden="true"
-    >
-
-      <!-- Memory Wall Header -->
-
-      <div class="memory-wall-header">
-
-        <div>
-          <p class="eyebrow">THE SPACED MEMORY WALL</p>
-
-          <h3>
-            Moments that
-            <span class="grad-text">stayed with us.</span>
-          </h3>
-        </div>
-
-        <button
-          id="close-memory-wall"
-          class="memory-wall-close"
-          type="button"
-          aria-label="Close memory wall"
-        >
-          <span>Close</span>
+      <div class="album-popup-panel" role="dialog" aria-modal="true" aria-label="Album Gallery">
+        <div class="image-zoom-backdrop"></div>
+        <button id="album-popup-close" class="album-popup-close" type="button" aria-label="Close gallery">
+          <span></span>
           <strong>×</strong>
         </button>
 
+        <!-- Gallery Grid containing your images -->
+        <div class="album-popup-grid" id="album-popup-grid">
+          <div class="album-popup-item"><img src="assets/album-pics/img1.jpg" alt="Moment 1" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img3.jpg" alt="Moment 2" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img5.jpg" alt="Moment 3" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img4.jpg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img5.jpg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img6.jpg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img7.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img8.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img9.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img10.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img11.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img12.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img13.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img14.jpeg" alt="Moment 4" loading="lazy"></div>
+          <div class="album-popup-item"><img src="assets/album-pics/img15.JPG" alt="Moment 4" loading="lazy"></div>
+        </div>
       </div>
-
-
-      <!-- =======================================================
-        MEMORY WALL CONTENT
-        
-        JavaScript creates the photos here.
-      ======================================================== -->
-
-      <div
-        id="memory-wall-grid"
-        class="memory-wall-grid"
-      ></div>
-
-
-      <!-- Bottom marker -->
-
-      <div class="memory-wall-end">
-
-        <span class="memory-wall-end-line"></span>
-
-        <p>
-          End of our current orbit.
-        </p>
-
-        <span class="memory-wall-end-line"></span>
-
-      </div>
-
     </div>
-
   </div>
 
 </section>

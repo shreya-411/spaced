@@ -1515,6 +1515,10 @@ main{
   position: relative;
 }
 
+.timeline-pin.eyebrow p {
+  margin: auto auto;
+}
+
 .timeline-track{
   position: relative;
   width: 100%;
@@ -1550,6 +1554,17 @@ main{
   z-index: 0;
 }
 
+.timeline-wrap {
+  margin-top: 80px; /* Pushes the whole timeline container down from the grid above */
+}
+
+.timeline-pin .eyebrow {
+  text-align: center;
+  width: 100%;
+  display: block;
+  margin-bottom: 50px; /* Space between the label and the timeline */
+  margin-top: 150px;
+}
 
 /* -----------------------------------------
    TIMELINE ITEM
@@ -2171,18 +2186,14 @@ main{
    ALBUM SECTION
 ========================================================================= */
 
-.album-section{
+.album-section {
   position: relative;
-
   overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(107,79,160,0.10),
-      transparent 45%
-    ),
-    var(--black);
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(107, 79, 160, 0),
+    transparent 65%,
+  );
 }
 
 
@@ -2190,14 +2201,11 @@ main{
    ALBUM INTRO
 ========================================================================= */
 
-.album-intro{
-  max-width: 760px;
-
-  margin:
-    0 auto
-    70px;
-
-  text-align: center;
+.album-intro {
+  text-align: left !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  width: 100% !important;
 }
 
 .album-intro .eyebrow{
@@ -2205,11 +2213,7 @@ main{
 }
 
 .album-intro .section-lede{
-  max-width: 650px;
-
-  margin:
-    24px auto
-    0;
+  max-width: 900px;
 }
 
 
@@ -2217,140 +2221,85 @@ main{
    ALBUM HOMEPAGE PREVIEW
 ========================================================================= */
 
-.album-preview{
+/* =========================================================
+   ALBUM PREVIEW SECTION
+   ========================================================== */
+
+.album-preview-container {
   position: relative;
-
   width: 100%;
-  min-height: 520px;
-
-  margin:
-    0 auto
-    50px;
-
+  max-width: 1200px;
+  height: 520px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-
   overflow: hidden;
-
-  border-radius: 20px;
-
-  border:
-    1px solid
-    var(--card-border);
-
-  background:
-    var(--card-bg);
-
-  box-shadow:
-    0 30px 80px
-    rgba(0,0,0,0.35);
 }
 
-
-/* Preview images */
-
-.album-preview-image{
+/* Base image styling, rounded edges, and smooth transition */
+.album-preview-image {
   position: absolute;
-
+  border-radius: 20px;
   overflow: hidden;
-
-  border-radius: 8px;
-
-  background:
-    var(--black);
-
-  box-shadow:
-    0 25px 60px
-    rgba(0,0,0,0.55);
-
-  transition:
-    transform .7s var(--ease),
-    box-shadow .5s var(--ease);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, filter 0.3s ease;
 }
 
-.album-preview-image img{
+.album-preview-image img {
   width: 100%;
   height: 100%;
-
-  display: block;
-
   object-fit: cover;
-
-  transition:
-    transform .8s var(--ease),
-    filter .5s var(--ease);
+  border-radius: 20px;
 }
 
-
-/* Individual preview positions */
-
-.album-preview-image-1{
-  width: 38%;
-  height: 330px;
-
-  left: 8%;
-  top: 70px;
-
-  transform:
-    rotate(-5deg);
+/* Larger Center Image */
+.album-preview-image-1 {
+  width: 510px;
+  height: 370px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: 5;
 }
 
-.album-preview-image-2{
-  width: 35%;
-  height: 360px;
-
-  right: 10%;
-  top: 45px;
-
-  transform:
-    rotate(5deg);
+/* Smaller Left Peeking Image */
+.album-preview-image-2 {
+  width: 350px;
+  height: 270px;
+  top: 55%;
+  left: 18%;
+  transform: translateY(-50%) rotate(-12deg);
+  z-index: 2;
 }
 
-.album-preview-image-3{
-  width: 30%;
-  height: 240px;
-
-  left: 35%;
-  bottom: 35px;
-
-  transform:
-    rotate(-2deg);
+/* Smaller Right Peeking Image */
+.album-preview-image-3 {
+  width: 350px;
+  height: 270px;
+  top: 55%;
+  right: 18%;
+  transform: translateY(-50%) rotate(12deg);
+  z-index: 2;
 }
 
-
-/* Preview hover */
-
-.album-preview:hover
-.album-preview-image-1{
-  transform:
-    rotate(-7deg)
-    translate(-8px,-8px);
+/* Hover States — slightly raise up and add glow */
+.album-preview-image:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 204, 0.2);
+  filter: brightness(1.08);
+  border-color: rgba(0, 255, 204, 0.4);
 }
 
-.album-preview:hover
-.album-preview-image-2{
-  transform:
-    rotate(7deg)
-    translate(8px,-8px);
+.album-preview-image-1:hover {
+  transform: translate(-50%, -50%) translateY(-6px) scale(1.02) rotate(0deg);
 }
 
-.album-preview:hover
-.album-preview-image-3{
-  transform:
-    rotate(-1deg)
-    translateY(-10px);
+.album-preview-image-2:hover {
+  transform: translateY(-50%) translateY(-6px) scale(1.02) rotate(-12deg);
 }
 
-.album-preview:hover
-.album-preview-image img{
-  transform:
-    scale(1.04);
-
-  filter:
-    saturate(1.08);
+.album-preview-image-3:hover {
+  transform: translateY(-50%) translateY(-6px) scale(1.02) rotate(12deg);
 }
-
 
 /* =========================================================================
    PREVIEW NOTE
@@ -2449,671 +2398,261 @@ main{
   justify-content: center;
 
   margin:
-    40px 0
-    100px;
+    10px 0
+    50px;
 }
 
-
-/* =========================================================================
-   MEMORY WALL
-========================================================================= */
-
-.memory-wall{
-
-  /*
-    The memory wall starts closed.
-
-    JavaScript adds:
-    .is-open
-
-    when the user clicks
-    "Explore the Album".
-  */
-
-  max-height: 0;
-
-  opacity: 0;
-
-  overflow: hidden;
-
-  visibility: hidden;
-
-  transform:
-    translateY(40px);
-
-  transition:
-    max-height 1.4s ease,
-    opacity .7s ease,
-    transform .8s var(--ease),
-    visibility 0s linear 1.4s;
-}
-
-
-.memory-wall.is-open{
-
-  max-height:
-    100000px;
-
-  opacity: 1;
-
-  visibility: visible;
-
-  transform:
-    translateY(0);
-
-  transition:
-    max-height 1.8s ease,
-    opacity .8s ease,
-    transform .8s var(--ease),
-    visibility 0s linear 0s;
-}
-
-
-/* =========================================================================
-   MEMORY WALL HEADER
-========================================================================= */
-
-.memory-wall-header{
-
-  max-width:
-    1100px;
-
-  margin:
-    0 auto
-    100px;
-
-  padding:
-    0 6vw;
-
+/* =========================================================
+  ALBUM POPUP GALLERY STYLES
+========================================================== */
+.album-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
   display: flex;
-
-  align-items:
-    flex-end;
-
-  justify-content:
-    space-between;
-
-  gap:
-    40px;
-}
-
-.memory-wall-header h3{
-
-  margin:
-    20px 0 0;
-
-  font-family:
-    var(--font-display);
-
-  font-size:
-    clamp(36px, 6vw, 76px);
-
-  line-height:
-    .95;
-}
-
-
-/* =========================================================================
-   CLOSE BUTTON
-========================================================================= */
-
-.memory-wall-close{
-
-  display: inline-flex;
-
   align-items: center;
-
-  gap:
-    10px;
-
-  padding:
-    10px 0;
-
-  border:
-    0;
-
-  background:
-    transparent;
-
-  color:
-    var(--text-dim);
-
-  cursor:
-    pointer;
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    10px;
-
-  letter-spacing:
-    2px;
-
-  text-transform:
-    uppercase;
-
-  transition:
-    color .3s ease;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-.memory-wall-close strong{
-
-  font-family:
-    Arial,
-    sans-serif;
-
-  font-size:
-    24px;
-
-  font-weight:
-    300;
-
-  line-height:
-    1;
+.album-popup-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.memory-wall-close:hover{
-
-  color:
-    var(--teal);
+.album-popup-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-
-/* =========================================================================
-   MEMORY WALL GRID
-========================================================================= */
-
-.memory-wall-grid{
-
-  position:
-    relative;
-
-  width:
-    100%;
-
-  max-width:
-    1500px;
-
-  margin:
-    0 auto;
-
-  padding:
-    40px 6vw
-    180px;
+.album-popup-panel {
+  perspective: 1000px;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: var(--card-bg, #100E1F);
+  padding: 100px 40px 40px 40px !important;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  overflow: hidden;
+  box-sizing: border-box;
+  
+  /* ADD THESE LINES FOR THE SMOOTH ENTRANCE SCALE */
+  transform: scale(0.96);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* =========================================================================
-   INDIVIDUAL MEMORY
-========================================================================= */
-
-.memory-item{
-
-  position:
-    relative;
-
-  width:
-    min(520px, 70vw);
-
-  margin-top:
-    180px;
-
-  opacity:
-    0;
-
-  transform:
-    translateY(100px)
-    scale(.94);
-
-  transition:
-    opacity .9s var(--ease),
-    transform 1s var(--ease);
+.album-popup-overlay.is-open .album-popup-panel {
+  transform: scale(1);
 }
 
-
-/* Revealed */
-
-.memory-item.is-visible{
-
-  opacity:
-    1;
-
-  transform:
-    translateY(0)
-    scale(1);
+.album-popup-close {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--card-border, rgba(139,120,200,0.25));
+  padding: 10px 20px;
+  border-radius: 99px;
+  color: var(--white, #fff);
+  cursor: pointer;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* =========================================================================
-   ALTERNATING MEMORY POSITIONING
-========================================================================= */
-
-.memory-item:nth-child(odd){
-
-  margin-left:
-    5%;
+.album-popup-close:hover {
+  background: rgba(77, 217, 192, 0.15);
+  border-color: var(--teal, #4DD9C0);
+  transform: scale(1.05);
 }
 
-.memory-item:nth-child(even){
-
-  margin-left:
-    auto;
-
-  margin-right:
-    5%;
+.album-popup-close strong {
+  font-size: 20px;
+  line-height: 1;
 }
 
-
-/* =========================================================================
-   CENTER MEMORY
-========================================================================= */
-
-.memory-item.memory-item-center{
-
-  width:
-    min(720px, 80vw);
-
-  margin-left:
-    auto;
-
-  margin-right:
-    auto;
+.album-popup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0px;
+  overflow-y: auto;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+.album-popup-grid {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-
-/* =========================================================================
-   MEMORY PHOTO
-========================================================================= */
-
-.memory-photo-wrap{
-
-  position:
-    relative;
-
-  overflow:
-    hidden;
-
-  border-radius:
-    6px;
-
-  background:
-    var(--card-bg);
-
-  box-shadow:
-    0 30px 80px
-    rgba(0,0,0,0.55);
-
-  transform:
-    rotate(var(--memory-rotation, 0deg));
-
-  transition:
-    transform .8s var(--ease),
-    box-shadow .5s var(--ease);
+.album-popup-grid::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-
-.memory-item:hover
-.memory-photo-wrap{
-
-  transform:
-    rotate(0deg)
-    scale(1.015);
-
-  box-shadow:
-    0 40px 100px
-    rgba(0,0,0,0.7);
+.album-popup-item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: #000;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
+/* Target exact outer corners of a 3-column grid */
+.album-popup-grid > .album-popup-item:nth-child(3n-2):first-child { border-top-left-radius: 16px; }
+.album-popup-grid > .album-popup-item:nth-child(3):last-child { border-top-right-radius: 16px; } /* Fallback for 3 items */
+.album-popup-grid > .album-popup-item:nth-child(1) { border-top-left-radius: 16px; }
+.album-popup-grid > .album-popup-item:nth-child(3) { border-top-right-radius: 16px; }
 
-/* =========================================================================
-   MEMORY IMAGE
-========================================================================= */
+/* Precisely target bottom-left and bottom-right corners of the last row */
+.album-popup-grid > .album-popup-item:nth-last-child(-n+3):nth-child(3n-2) { border-bottom-left-radius: 16px; }
+.album-popup-grid > .album-popup-item:last-child { border-bottom-right-radius: 16px; }
 
-.memory-photo{
 
-  width:
-    100%;
-
-  height:
-    auto;
-
-  display:
-    block;
-
-  object-fit:
-    cover;
-
-  transition:
-    transform 1s var(--ease),
-    filter .5s var(--ease);
+.album-popup-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: none !important;
 }
 
-
-.memory-item:hover
-.memory-photo{
-
-  transform:
-    scale(1.03);
-
-  filter:
-    saturate(1.08);
+/* Thicker border (4px instead of 2px) */
+.album-popup-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid transparent; 
+  background: linear-gradient(135deg, #4DD9C0, #8B78C8);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
-
-/* =========================================================================
-   MEMORY INFORMATION
-========================================================================= */
-
-.memory-info{
-
-  position:
-    relative;
-
-  padding:
-    22px 8px
-    0;
+.album-popup-item:hover::after {
+  opacity: 1;
 }
 
-
-.memory-date{
-
-  display:
-    block;
-
-  margin-bottom:
-    8px;
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    11px;
-
-  letter-spacing:
-    2px;
-
-  color:
-    var(--teal);
-
-  text-transform:
-    uppercase;
+@media (max-width: 1024px) {
+  .album-popup-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-
-.memory-caption{
-
-  margin:
-    0;
-
-  font-family:
-    var(--font-display);
-
-  font-size:
-    clamp(18px, 2vw, 25px);
-
-  font-weight:
-    600;
-
-  line-height:
-    1.3;
-
-  color:
-    var(--white);
+@media (max-width: 600px) {
+  .album-popup-panel {
+    padding: 90px 20px 30px 20px;
+  }
+  .album-popup-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
-
-.memory-description{
-
-  max-width:
-    500px;
-
-  margin:
-    10px 0 0;
-
-  color:
-    var(--text-dim);
-
-  font-size:
-    14px;
-
-  line-height:
-    1.7;
+/* =========================================================
+  POPUP ACTIVE STATE: HIDE UI & DISABLE SIDEBAR HOVER
+========================================================== */
+body.album-popup-open {
+  overflow: hidden !important; /* Locks the background scroll completely */
 }
 
-
-/* =========================================================================
-   MEMORY NUMBER
-========================================================================= */
-
-.memory-number{
-
-  position:
-    absolute;
-
-  top:
-    -10px;
-
-  right:
-    0;
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    10px;
-
-  letter-spacing:
-    2px;
-
-  color:
-    var(--text-dimmer);
+body.album-popup-open #logo-toggle,
+body.album-popup-open .scroll-progress,
+body.album-popup-open .scroll-dots,
+body.album-popup-open [class*="scroll-progress"],
+body.album-popup-open [class*="scroll-dot"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
 }
 
-
-/* =========================================================================
-   DIFFERENT ENTRANCE DIRECTIONS
-========================================================================= */
-
-.memory-item.from-left{
-
-  transform:
-    translateX(-120px)
-    translateY(50px)
-    rotate(-2deg)
-    scale(.94);
+body.album-popup-open #hover-zone {
+  pointer-events: none !important;
 }
 
+/* =========================================================
+  ZOOM IN ON IMAGE IN POPUP
+========================================================== */
 
-.memory-item.from-right{
-
-  transform:
-    translateX(120px)
-    translateY(50px)
-    rotate(2deg)
-    scale(.94);
+/* Backdrop that dims everything else when an image is expanded */
+.image-zoom-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 100;
+  pointer-events: none;
 }
 
-
-.memory-item.from-bottom{
-
-  transform:
-    translateY(140px)
-    scale(.94);
+.image-zoom-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-
-.memory-item.is-visible.from-left,
-.memory-item.is-visible.from-right,
-.memory-item.is-visible.from-bottom{
-
-  transform:
-    translateX(0)
-    translateY(0)
-    rotate(var(--memory-rotation, 0deg))
-    scale(1);
+.album-popup-item {
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
 }
 
-
-/* =========================================================================
-   MEMORY PARALLAX
-========================================================================= */
-
-.memory-photo-wrap{
-
-  /*
-    JavaScript updates this variable
-    while the user scrolls.
-
-    Example:
-
-    --parallax-y: 10px;
-  */
-
-  --parallax-y:
-    0px;
+.album-popup-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotateY(0deg);
 }
 
-
-.memory-item.is-visible
-.memory-photo-wrap{
-
-  transform:
-    translateY(var(--parallax-y))
-    rotate(var(--memory-rotation, 0deg));
+/* Expanded state */
+.album-popup-item.is-expanded {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: min(85vw, 1000px) !important;
+  height: min(85vh, 750px) !important;
+  margin: 0 !important;
+  z-index: 101 !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  border-radius: 16px;
+  background: #000 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  transition: all 0.85s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-
-/* =========================================================================
-   DECORATIVE MEMORY DOT
-========================================================================= */
-
-.memory-item::before{
-
-  content:
-    '';
-
-  position:
-    absolute;
-
-  width:
-    7px;
-
-  height:
-    7px;
-
-  border-radius:
-    50%;
-
-  background:
-    var(--teal);
-
-  box-shadow:
-    0 0 20px 5px
-    rgba(77,217,192,0.35);
-
-  opacity:
-    0;
-
-  transition:
-    opacity .6s var(--ease);
+.album-popup-item.is-expanded img {
+  border-radius: 16px;
+  object-fit: contain !important;
+  transform: rotateY(360deg);
 }
 
-
-.memory-item.is-visible::before{
-
-  opacity:
-    1;
+.album-popup-item.is-expanded::after {
+  display: none !important;
 }
 
-
-/* Left-side dot */
-
-.memory-item:nth-child(odd)::before{
-
-  right:
-    -10%;
-
-  top:
-    50%;
-}
-
-
-/* Right-side dot */
-
-.memory-item:nth-child(even)::before{
-
-  left:
-    -10%;
-
-  top:
-    50%;
-}
-
-
-/* =========================================================================
-   MEMORY END
-========================================================================= */
-
-.memory-wall-end{
-
-  padding:
-    100px 20px
-    120px;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  gap:
-    30px;
-
-  text-align:
-    center;
-}
-
-
-.memory-wall-end-line{
-
-  width:
-    80px;
-
-  height:
-    1px;
-
-  background:
-    rgba(139,120,200,0.25);
-}
-
-
-.memory-wall-end p{
-
-  margin:
-    0;
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    11px;
-
-  letter-spacing:
-    3px;
-
-  color:
-    var(--text-dimmer);
-
-  text-transform:
-    uppercase;
-}
-
-
-/* =========================================================================
+/*===========================================================
    MOBILE
 ========================================================================= */
 

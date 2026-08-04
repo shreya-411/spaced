@@ -2026,904 +2026,163 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     );
 
-
-
-  /* =======================================================================
-     MEMORY WALL
-     -----------------------------------------------------------------------
-     The album now lives directly inside index.html.
-
-     Expected HTML:
-
-     <section id="album" class="section album-memory-page">
-
-       <div class="memory-header">
-         ...
-       </div>
-
-       <div
-         id="memory-wall"
-         class="memory-wall"
-       ></div>
-
-       <div class="memory-end">
-         ...
-       </div>
-
-     </section>
-
-
-     Memory data is stored here.
-
-     Add more memories by adding another object to MEMORY_DATA.
-  ======================================================================= */
-
-  const memoryWall =
-    document.getElementById(
-      'memory-wall'
-    );
-
-
-  if (memoryWall) {
-
-
-    /* ---------------------------------------------------------------------
-       MEMORY DATA
-
-       Replace these image paths with your actual images.
-
-       Example:
-
-       image: "assets/images/event-01.jpg"
-
-       date:
-       The date shown on the memory.
-
-       caption:
-       Main memory title.
-
-       description:
-       Optional supporting text.
-
-       size:
-       "small"
-       "medium"
-       "large"
-
-       position:
-       "left"
-       "right"
-       "center"
-
-       You do NOT need to keep these in chronological order.
-
-       This is intentionally a MEMORY WALL,
-       not a timeline.
-    --------------------------------------------------------------------- */
-
-
-    const MEMORY_DATA = [
-
-      {
-        image:
-          'assets/images/memory-01.jpg',
-
-        date:
-          'January 2026',
-
-        caption:
-          'Where it all began.',
-
-        description:
-          'A moment worth remembering.',
-
-        size:
-          'medium',
-
-        position:
-          'left'
-      },
-
-
-      {
-        image:
-          'assets/images/memory-02.jpg',
-
-        date:
-          'February 2026',
-
-        caption:
-          'Building something together.',
-
-        description:
-          'Ideas became conversations, and conversations became action.',
-
-        size:
-          'large',
-
-        position:
-          'right'
-      },
-
-
-      {
-        image:
-          'assets/images/memory-03.jpg',
-
-        date:
-          'March 2026',
-
-        caption:
-          'The people behind the movement.',
-
-        description:
-          'Every memory is made by the people who show up.',
-
-        size:
-          'medium',
-
-        position:
-          'center'
-      },
-
-
-      {
-        image:
-          'assets/images/memory-04.jpg',
-
-        date:
-          'April 2026',
-
-        caption:
-          'A room full of possibilities.',
-
-        description:
-          'The kind of day that stays with you.',
-
-        size:
-          'small',
-
-        position:
-          'left'
-      },
-
-
-      {
-        image:
-          'assets/images/memory-05.jpg',
-
-        date:
-          'May 2026',
-
-        caption:
-          'More than an event.',
-
-        description:
-          'A shared experience, captured in one frame.',
-
-        size:
-          'large',
-
-        position:
-          'right'
-      }
-
-    ];
-
-
-
-    /* ---------------------------------------------------------------------
-       RANDOM / STRATEGIC POSITIONING
-    --------------------------------------------------------------------- */
-
-    const entryDirections = [
-      'from-left',
-      'from-right',
-      'from-bottom'
-    ];
-
-
-    const rotations = [
-      '-2deg',
-      '1.5deg',
-      '-1deg',
-      '2deg',
-      '0deg'
-    ];
-
-
-
-    /* ---------------------------------------------------------------------
-       CREATE MEMORY ELEMENT
-    --------------------------------------------------------------------- */
-
-    function createMemoryItem(
-      memory,
-      index
-    ) {
-
-      const article =
-        document.createElement(
-          'article'
-        );
-
-
-      article.className =
-        'memory-item';
-
-
-      /* Position */
-
-      if (
-        memory.position ===
-        'center'
-      ) {
-
-        article.classList.add(
-          'memory-item-center'
-        );
-
-      }
-
-
-      /* Size */
-
-      if (
-        memory.size ===
-        'large'
-      ) {
-
-        article.classList.add(
-          'memory-item-center'
-        );
-
-      }
-
-
-
-      /* Entry direction */
-
-      const direction =
-        memory.entry ||
-        entryDirections[
-          index %
-          entryDirections.length
-        ];
-
-
-      article.classList.add(
-        direction
-      );
-
-
-
-      /* Rotation */
-
-      const rotation =
-        memory.rotation ||
-        rotations[
-          index %
-          rotations.length
-        ];
-
-
-      article.style.setProperty(
-        '--memory-rotation',
-        rotation
-      );
-
-
-
-      /* Memory number */
-
-      const number =
-        String(
-          index + 1
-        ).padStart(
-          2,
-          '0'
-        );
-
-
-
-      article.innerHTML = `
-
-        <div
-          class="memory-photo-wrap"
-        >
-
-          <img
-            class="memory-photo"
-            src="${memory.image}"
-            alt="${memory.caption || 'WESPACED memory'}"
-            loading="lazy"
-          >
-
-        </div>
-
-
-        <div
-          class="memory-info"
-        >
-
-          <span
-            class="memory-date"
-          >
-            ${memory.date || ''}
-          </span>
-
-
-          <span
-            class="memory-number"
-          >
-            ${number}
-          </span>
-
-
-          <h3
-            class="memory-caption"
-          >
-            ${memory.caption || ''}
-          </h3>
-
-
-          ${
-            memory.description
-              ? `
-                <p
-                  class="memory-description"
-                >
-                  ${memory.description}
-                </p>
-              `
-              : ''
-          }
-
-        </div>
-
-      `;
-
-
-      return article;
-
-    }
-
-
-
-    /* ---------------------------------------------------------------------
-       BUILD MEMORY WALL
-    --------------------------------------------------------------------- */
-
-    MEMORY_DATA.forEach(
-      (
-        memory,
-        index
-      ) => {
-
-        const item =
-          createMemoryItem(
-            memory,
-            index
-          );
-
-
-        memoryWall.appendChild(
-          item
-        );
-
-      }
-    );
-
-
-
-    /* ---------------------------------------------------------------------
-       MEMORY SCROLL REVEAL
-
-       Each memory becomes visible as the user reaches it.
-
-       This is what creates the:
-       - pop-in effect
-       - slide-in effect
-       - varied movement
-       - scroll-driven reveal
-    --------------------------------------------------------------------- */
-
-    const memoryItems =
-      memoryWall.querySelectorAll(
-        '.memory-item'
-      );
-
-
-    const memoryObserver =
-      new IntersectionObserver(
-        (entries) => {
-
-          entries.forEach(
-            entry => {
-
-              if (
-                entry.isIntersecting
-              ) {
-
-                entry.target.classList.add(
-                  'is-visible'
-                );
-
-
-                // Once the memory has appeared,
-                // stop observing it.
-
-                memoryObserver.unobserve(
-                  entry.target
-                );
-
-              }
-
-            }
-          );
-
-        },
-        {
-          threshold:
-            0.18,
-
-          rootMargin:
-            '0px 0px -80px 0px'
-        }
-      );
-
-
-
-    memoryItems.forEach(
-      item =>
-        memoryObserver.observe(
-          item
-        )
-    );
-
-
-
-    /* ---------------------------------------------------------------------
-       MEMORY PARALLAX
-
-       Creates a subtle vertical movement as the user scrolls.
-
-       This is intentionally very small.
-
-       The goal is:
-       "cinematic movement"
-
-       NOT:
-       "everything is flying around the screen."
-    --------------------------------------------------------------------- */
-
-
-    const prefersReducedMotion =
-      window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches;
-
-
-    if (
-      !prefersReducedMotion
-    ) {
-
-      let parallaxTicking =
-        false;
-
-
-      function updateMemoryParallax() {
-
-        const viewportHeight =
-          window.innerHeight;
-
-
-        memoryItems.forEach(
-          item => {
-
-            if (
-              !item.classList.contains(
-                'is-visible'
-              )
-            ) {
-              return;
-            }
-
-
-            const rect =
-              item.getBoundingClientRect();
-
-
-            const itemCenter =
-              rect.top +
-              rect.height /
-              2;
-
-
-            const distance =
-              itemCenter -
-              viewportHeight /
-              2;
-
-
-            const movement =
-              Math.max(
-                -18,
-                Math.min(
-                  18,
-                  distance *
-                  -0.025
-                )
-              );
-
-
-            const photo =
-              item.querySelector(
-                '.memory-photo'
-              );
-
-
-            if (photo) {
-
-              photo.style.transform =
-                `translateY(${movement}px) scale(1.03)`;
-
-            }
-
-          }
-        );
-
-
-        parallaxTicking =
-          false;
-
-      }
-
-
-
-      window.addEventListener(
-        'scroll',
-        () => {
-
-          if (
-            !parallaxTicking
-          ) {
-
-            window.requestAnimationFrame(
-              updateMemoryParallax
-            );
-
-
-            parallaxTicking =
-              true;
-
-          }
-
-        },
-        {
-          passive:
-            true
-        }
-      );
-
-    }
-
-
-
-    /* ---------------------------------------------------------------------
-       MEMORY LIGHTBOX / POP-UP
-
-       Clicking a memory opens the image larger.
-
-       This replaces the old full album modal.
-
-       The wall remains on the page.
-
-       The popup is only used for viewing
-       one specific memory in more detail.
-    --------------------------------------------------------------------- */
-
-
-    let memoryLightbox =
-      document.getElementById(
-        'memory-lightbox'
-      );
-
-
-    if (
-      !memoryLightbox
-    ) {
-
-      memoryLightbox =
-        document.createElement(
-          'div'
-        );
-
-
-      memoryLightbox.id =
-        'memory-lightbox';
-
-
-      memoryLightbox.className =
-        'memory-lightbox';
-
-
-      memoryLightbox.innerHTML = `
-
-        <div
-          class="memory-lightbox-backdrop"
-          data-lightbox-close
-        ></div>
-
-
-        <div
-          class="memory-lightbox-content"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Memory viewer"
-        >
-
-          <button
-            class="memory-lightbox-close"
-            type="button"
-            aria-label="Close memory"
-            data-lightbox-close
-          >
-            ×
-          </button>
-
-
-          <img
-            class="memory-lightbox-image"
-            src=""
-            alt=""
-          >
-
-
-          <div
-            class="memory-lightbox-info"
-          >
-
-            <span
-              class="memory-lightbox-date"
-            ></span>
-
-
-            <h3
-              class="memory-lightbox-caption"
-            ></h3>
-
-
-            <p
-              class="memory-lightbox-description"
-            ></p>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      document.body.appendChild(
-        memoryLightbox
-      );
-
-    }
-
-
-
-    const lightboxImage =
-      memoryLightbox.querySelector(
-        '.memory-lightbox-image'
-      );
-
-
-    const lightboxDate =
-      memoryLightbox.querySelector(
-        '.memory-lightbox-date'
-      );
-
-
-    const lightboxCaption =
-      memoryLightbox.querySelector(
-        '.memory-lightbox-caption'
-      );
-
-
-    const lightboxDescription =
-      memoryLightbox.querySelector(
-        '.memory-lightbox-description'
-      );
-
-
-
-    function openMemoryLightbox(
-      item
-    ) {
-
-      const image =
-        item.querySelector(
-          '.memory-photo'
-        );
-
-
-      const date =
-        item.querySelector(
-          '.memory-date'
-        );
-
-
-      const caption =
-        item.querySelector(
-          '.memory-caption'
-        );
-
-
-      const description =
-        item.querySelector(
-          '.memory-description'
-        );
-
-
-      if (
-        image &&
-        lightboxImage
-      ) {
-
-        lightboxImage.src =
-          image.src;
-
-
-        lightboxImage.alt =
-          image.alt;
-
-      }
-
-
-      if (
-        lightboxDate
-      ) {
-
-        lightboxDate.textContent =
-          date
-            ? date.textContent
-            : '';
-
-      }
-
-
-      if (
-        lightboxCaption
-      ) {
-
-        lightboxCaption.textContent =
-          caption
-            ? caption.textContent
-            : '';
-
-      }
-
-
-      if (
-        lightboxDescription
-      ) {
-
-        lightboxDescription.textContent =
-          description
-            ? description.textContent
-            : '';
-
-      }
-
-
-      memoryLightbox.classList.add(
-        'is-open'
-      );
-
-
-      document.body.classList.add(
-        'memory-lightbox-open'
-      );
-
-    }
-
-
-
-    function closeMemoryLightbox() {
-
-      memoryLightbox.classList.remove(
-        'is-open'
-      );
-
-
-      document.body.classList.remove(
-        'memory-lightbox-open'
-      );
-
-    }
-
-
-
-    memoryItems.forEach(
-      item => {
-
-        const photo =
-          item.querySelector(
-            '.memory-photo'
-          );
-
-
-        if (
-          !photo
-        ) {
-          return;
-        }
-
-
-        photo.style.cursor =
-          'pointer';
-
-
-        photo.addEventListener(
-          'click',
-          () =>
-            openMemoryLightbox(
-              item
-            )
-        );
-
-      }
-    );
-
-
-
-    // Close button / backdrop
-
-    memoryLightbox
-      .querySelectorAll(
-        '[data-lightbox-close]'
-      )
-      .forEach(
-        element => {
-
-          element.addEventListener(
-            'click',
-            closeMemoryLightbox
-          );
-
-        }
-      );
-
-
-
-    // Escape key
-
-    document.addEventListener(
-      'keydown',
-      (e) => {
-
-        if (
-          e.key ===
-          'Escape'
-        ) {
-
-          closeMemoryLightbox();
-
-        }
-
-      }
-    );
-
+  document.addEventListener('DOMContentLoaded', () => {
+  const openBtn = document.getElementById('open-memory-wall');
+  const closeBtn = document.getElementById('album-popup-close');
+  const backdrop = document.getElementById('album-popup-close-backdrop');
+  const popupOverlay = document.getElementById('album-popup-overlay');
+
+  if (openBtn && popupOverlay) {
+    // Open Popup
+    openBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      popupOverlay.classList.add('is-open');
+      popupOverlay.setAttribute('aria-hidden', 'false');
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    });
   }
 
+  function closePopup() {
+    if (popupOverlay) {
+      popupOverlay.classList.remove('is-open');
+      popupOverlay.setAttribute('aria-hidden', 'true');
+      if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = ''; // Restore background scrolling
+    }
+  }
 
+  // Close via button or backdrop click
+  if (closeBtn) closeBtn.addEventListener('click', closePopup);
+  if (backdrop) backdrop.addEventListener('click', closePopup);
 
+  // Close via Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popupOverlay.classList.contains('is-open')) {
+      closePopup();
+    }
+  });
+});
+
+/*=========================================================================
+   ALBUM POPUP GALLERY CONTROLLER
+========================================================================= */
+  const openBtn = document.getElementById('open-memory-wall');
+  const popupOverlay = document.getElementById('album-popup-overlay');
+  const closeBtn = document.getElementById('album-popup-close');
+  const backdrop = document.getElementById('album-popup-close-backdrop');
+
+  if (!openBtn || !popupOverlay) return;
+
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    popupOverlay.classList.add('is-open');
+    popupOverlay.setAttribute('aria-hidden', 'false');
+    openBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('album-popup-open'); // Triggers hiding UI elements & disabling sidebar
+  });
+
+  function closePopup() {
+    popupOverlay.classList.remove('is-open');
+    popupOverlay.setAttribute('aria-hidden', 'true');
+    openBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('album-popup-open'); // Restores normal UI
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closePopup);
+  if (backdrop) backdrop.addEventListener('click', closePopup);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popupOverlay.classList.contains('is-open')) {
+      closePopup();
+    }
+  });
+
+/*=========================================================================   
+ FLIP ANIMATION
+========================================================================= */
   /* =======================================================================
-     END MEMORY WALL
+     MEMORY WALL POPUP & 3D FLIP ANIMATION CONTROLLER
   ======================================================================= */
 
+  const memoryOpenBtn = document.getElementById('open-memory-wall');
+  const memoryPopupOverlay = document.getElementById('album-popup-overlay');
+  const memoryCloseBtn = document.getElementById('album-popup-close');
+  const memoryBackdrop = document.getElementById('album-popup-close-backdrop');
+  const zoomBackdrop = document.querySelector('.image-zoom-backdrop');
+  let activeItem = null;
 
+  if (memoryOpenBtn && memoryPopupOverlay) {
+    memoryOpenBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      memoryPopupOverlay.classList.add('is-open');
+      memoryPopupOverlay.setAttribute('aria-hidden', 'false');
+      memoryOpenBtn.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('album-popup-open');
+    });
+  }
+
+  function closePopup() {
+    if (activeItem) {
+      closeExpandedItem();
+      return;
+    }
+    if (memoryPopupOverlay) {
+      memoryPopupOverlay.classList.remove('is-open');
+      memoryPopupOverlay.setAttribute('aria-hidden', 'true');
+      if (memoryOpenBtn) memoryOpenBtn.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('album-popup-open');
+    }
+  }
+
+  if (memoryCloseBtn) memoryCloseBtn.addEventListener('click', closePopup);
+  if (memoryBackdrop) memoryBackdrop.addEventListener('click', closePopup);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (activeItem) {
+        closeExpandedItem();
+      } else if (memoryPopupOverlay && memoryPopupOverlay.classList.contains('is-open')) {
+        closePopup();
+      }
+    }
+  });
+
+  function closeExpandedItem() {
+    if (!activeItem) return;
+    
+    activeItem.classList.remove('is-expanded');
+    if (zoomBackdrop) zoomBackdrop.classList.remove('active');
+    activeItem = null;
+  }
+
+  // 3D FLIP ANIMATION LOGIC FOR GALLERY ITEMS
+  document.querySelectorAll('.album-popup-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      if (item === activeItem) {
+        closeExpandedItem();
+        return;
+      }
+
+      if (activeItem) {
+        closeExpandedItem();
+      }
+
+      activeItem = item;
+
+      // Open zoom backdrop & trigger layout shift smoothly
+      if (zoomBackdrop) zoomBackdrop.classList.add('active');
+      item.classList.add('is-expanded');
+    });
+  });
+
+  if (zoomBackdrop) {
+    zoomBackdrop.addEventListener('click', () => {
+      if (activeItem) closeExpandedItem();
+    });
+  }
 
   /* =======================================================================
      SCROLL PROGRESS BAR
