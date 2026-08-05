@@ -2118,6 +2118,9 @@ function expandAlbumImage(item){
   if (expandedItem) return;
   expandedItem = item;
 
+  const grid = document.getElementById('album-popup-grid');
+  grid.style.overflowY = 'hidden'; // lock scroll while expanded
+
   const img = item.querySelector('img');
   const startRect = item.getBoundingClientRect();
 
@@ -2180,23 +2183,20 @@ function collapseAlbumImage(){
   expandedItem = null;
 
   const grid = document.getElementById('album-popup-grid');
+  // grid.style.overflowY stays 'hidden' here — don't unlock yet
+
   const gridRect = grid.getBoundingClientRect();
   const endRect = expandedPlaceholder.getBoundingClientRect();
 
   item.classList.remove('is-expanded');
 
-  // STEP 1: set the STARTING clip-path (fully open, no clipping) with no transition
   item.style.transition = 'none';
   item.style.clipPath = 'inset(0px 0px 0px 0px)';
-
-  // force reflow so the browser registers this as the "before" state
   item.getBoundingClientRect();
 
-  // STEP 2: now enable the transition and set the END state (position + clip) on the next frame
   requestAnimationFrame(() => {
     item.style.transition = 'transform 0.5s cubic-bezier(0.22, 0.68, 0.28, 1), clip-path 0.5s cubic-bezier(0.22, 0.68, 0.28, 1)';
     item.style.transform = `translate(${endRect.left}px, ${endRect.top}px)`;
-
     item.style.clipPath = `inset(
       ${Math.max(0, gridRect.top - endRect.top)}px
       ${Math.max(0, endRect.right - gridRect.right)}px
@@ -2227,6 +2227,8 @@ function collapseAlbumImage(){
     expandedPlaceholder.parentNode.insertBefore(item, expandedPlaceholder);
     expandedPlaceholder.remove();
     expandedPlaceholder = null;
+
+    grid.style.overflowY = ''; // unlock scroll now that collapse is fully done
   }, { once: true });
 }
 
