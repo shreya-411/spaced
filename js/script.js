@@ -2074,13 +2074,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!openBtn || !popupOverlay) return;
 
-  openBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    popupOverlay.classList.add('is-open');
-    popupOverlay.setAttribute('aria-hidden', 'false');
-    openBtn.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('album-popup-open'); // Triggers hiding UI elements & disabling sidebar
+openBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  popupOverlay.classList.add('is-open');
+  popupOverlay.setAttribute('aria-hidden', 'false');
+  openBtn.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('album-popup-open'); // Triggers hiding UI elements & disabling sidebar
+
+  // Wait for the opening transition/visibility to apply, then measure real image sizes
+  requestAnimationFrame(() => {
+    requestAnimationFrame(sizeAlbumGridItems);
   });
+});
 
   function closePopup() {
     popupOverlay.classList.remove('is-open');
@@ -2099,94 +2104,173 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 /*=========================================================================   
- FLIP ANIMATION
+  ZOOM ANIMATION
 ========================================================================= */
-  /* =======================================================================
-     MEMORY WALL POPUP & 3D FLIP ANIMATION CONTROLLER
-  ======================================================================= */
 
-  const memoryOpenBtn = document.getElementById('open-memory-wall');
-  const memoryPopupOverlay = document.getElementById('album-popup-overlay');
-  const memoryCloseBtn = document.getElementById('album-popup-close');
-  const memoryBackdrop = document.getElementById('album-popup-close-backdrop');
-  const zoomBackdrop = document.querySelector('.image-zoom-backdrop');
-  let activeItem = null;
+const albumPopupItems = document.querySelectorAll('.album-popup-item');
+const imageZoomBackdrop = document.getElementById('image-zoom-clone-backdrop');
 
-  if (memoryOpenBtn && memoryPopupOverlay) {
-    memoryOpenBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      memoryPopupOverlay.classList.add('is-open');
-      memoryPopupOverlay.setAttribute('aria-hidden', 'false');
-      memoryOpenBtn.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('album-popup-open');
-    });
+
+let expandedItem = null;
+let expandedPlaceholder = null;
+
+function expandAlbumImage(item){
+  if (expandedItem) return;
+  expandedItem = item;
+
+  const img = item.querySelector('img');
+  const startRect = item.getBoundingClientRect();
+
+  // Copy the grid sizing so the placeholder takes up the EXACT same grid cell
+  const computedRowSpan = item.style.gridRowEnd;
+
+  expandedPlaceholder = document.createElement('div');
+  expandedPlaceholder.className = 'album-popup-item-placeholder';
+  expandedPlaceholder.style.gridRowEnd = computedRowSpan;
+  expandedPlaceholder.style.gridColumn = window.getComputedStyle(item).gridColumn;
+
+  item.parentNode.insertBefore(expandedPlaceholder, item);
+  document.body.appendChild(item);
+
+  // ...rest unchanged
+  // Pin the item at its exact starting screen position using transform, not top/left
+  item.style.position = 'fixed';
+  item.style.top = '0';
+  item.style.left = '0';
+  item.style.width = `${startRect.width}px`;
+  item.style.height = `${startRect.height}px`;
+  item.style.margin = '0';
+  item.style.zIndex = '100001';
+  item.style.transition = 'none';
+  item.style.willChange = 'transform';
+  item.style.transformOrigin = 'top left';
+  item.style.transform = `translate(${startRect.left}px, ${startRect.top}px)`;
+
+  if (img.naturalWidth && img.naturalHeight){
+    item.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
   }
 
-  function closePopup() {
-    if (activeItem) {
-      closeExpandedItem();
-      return;
-    }
-    if (memoryPopupOverlay) {
-      memoryPopupOverlay.classList.remove('is-open');
-      memoryPopupOverlay.setAttribute('aria-hidden', 'true');
-      if (memoryOpenBtn) memoryOpenBtn.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('album-popup-open');
-    }
-  }
+  // force reflow so the browser registers the starting transform
+  item.getBoundingClientRect();
 
-  if (memoryCloseBtn) memoryCloseBtn.addEventListener('click', closePopup);
-  if (memoryBackdrop) memoryBackdrop.addEventListener('click', closePopup);
+  if (imageZoomBackdrop) imageZoomBackdrop.classList.add('active');
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (activeItem) {
-        closeExpandedItem();
-      } else if (memoryPopupOverlay && memoryPopupOverlay.classList.contains('is-open')) {
-        closePopup();
-      }
-    }
+  requestAnimationFrame(() => {
+    const targetWidth = Math.min(window.innerWidth * 0.85, 1000);
+    const targetHeight = Math.min(window.innerHeight * 0.85, 750, targetWidth * (startRect.height / startRect.width));
+    const finalWidth = Math.min(targetWidth, targetHeight * (startRect.width / startRect.height));
+    const finalHeight = finalWidth * (startRect.height / startRect.width);
+
+    const finalX = (window.innerWidth - finalWidth) / 2;
+    const finalY = (window.innerHeight - finalHeight) / 2;
+    const scaleX = finalWidth / startRect.width;
+    const scaleY = finalHeight / startRect.height;
+
+    item.style.transition = 'transform 0.5s cubic-bezier(0.22, 0.68, 0.28, 1)';
+    item.style.transform = `translate(${finalX}px, ${finalY}px) scale(${scaleX}, ${scaleY})`;
+
+    item.classList.add('is-expanded');
+  });
+}
+
+function collapseAlbumImage(){
+  if (!expandedItem) return;
+
+  const item = expandedItem;
+  expandedItem = null;
+
+  const grid = document.getElementById('album-popup-grid');
+  const gridRect = grid.getBoundingClientRect();
+  const endRect = expandedPlaceholder.getBoundingClientRect();
+
+  item.classList.remove('is-expanded');
+
+  // STEP 1: set the STARTING clip-path (fully open, no clipping) with no transition
+  item.style.transition = 'none';
+  item.style.clipPath = 'inset(0px 0px 0px 0px)';
+
+  // force reflow so the browser registers this as the "before" state
+  item.getBoundingClientRect();
+
+  // STEP 2: now enable the transition and set the END state (position + clip) on the next frame
+  requestAnimationFrame(() => {
+    item.style.transition = 'transform 0.5s cubic-bezier(0.22, 0.68, 0.28, 1), clip-path 0.5s cubic-bezier(0.22, 0.68, 0.28, 1)';
+    item.style.transform = `translate(${endRect.left}px, ${endRect.top}px)`;
+
+    item.style.clipPath = `inset(
+      ${Math.max(0, gridRect.top - endRect.top)}px
+      ${Math.max(0, endRect.right - gridRect.right)}px
+      ${Math.max(0, endRect.bottom - gridRect.bottom)}px
+      ${Math.max(0, gridRect.left - endRect.left)}px
+    )`;
   });
 
-  function closeExpandedItem() {
-    if (!activeItem) return;
-    
-    activeItem.classList.remove('is-expanded');
-    if (zoomBackdrop) zoomBackdrop.classList.remove('active');
-    activeItem = null;
-  }
+  if (imageZoomBackdrop) imageZoomBackdrop.classList.remove('active');
 
-  // 3D FLIP ANIMATION LOGIC FOR GALLERY ITEMS
-  document.querySelectorAll('.album-popup-item').forEach(item => {
-    item.addEventListener('click', (e) => {
+  item.addEventListener('transitionend', function handler(){
+    item.removeEventListener('transitionend', handler);
+
+    item.style.position = '';
+    item.style.top = '';
+    item.style.left = '';
+    item.style.width = '';
+    item.style.height = '';
+    item.style.margin = '';
+    item.style.transform = '';
+    item.style.zIndex = '';
+    item.style.transition = '';
+    item.style.aspectRatio = '';
+    item.style.willChange = '';
+    item.style.transformOrigin = '';
+    item.style.clipPath = '';
+
+    expandedPlaceholder.parentNode.insertBefore(item, expandedPlaceholder);
+    expandedPlaceholder.remove();
+    expandedPlaceholder = null;
+  }, { once: true });
+}
+
+
+albumPopupItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    if (expandedItem === item){
+      collapseAlbumImage();
+    } else if (!expandedItem){
       e.stopPropagation();
-
-      if (item === activeItem) {
-        closeExpandedItem();
-        return;
-      }
-
-      if (activeItem) {
-        closeExpandedItem();
-      }
-
-      activeItem = item;
-
-      // Open zoom backdrop & trigger layout shift smoothly
-      if (zoomBackdrop) zoomBackdrop.classList.add('active');
-      item.classList.add('is-expanded');
-    });
+      expandAlbumImage(item);
+    }
+    // if expandedItem is some OTHER item, ignore the click entirely (prevents opening a second image while one is already open)
   });
+});
 
-  if (zoomBackdrop) {
-    zoomBackdrop.addEventListener('click', () => {
-      if (activeItem) closeExpandedItem();
-    });
-  }
+if (imageZoomBackdrop){
+  imageZoomBackdrop.addEventListener('click', collapseAlbumImage);
+}
 
-  /* =======================================================================
-     SCROLL PROGRESS BAR
-  ======================================================================= */
+function sizeAlbumGridItems() {
+  const grid = document.getElementById('album-popup-grid');
+  if (!grid) return;
+  const rowHeight = 4; // must match grid-auto-rows value above
+  const gap = 0;
+
+  grid.querySelectorAll('.album-popup-item img').forEach(img => {
+    const resize = () => {
+      const item = img.closest('.album-popup-item');
+      const rowSpan = Math.ceil((img.getBoundingClientRect().height + gap) / (rowHeight + gap)) + 1;
+      item.style.gridRowEnd = 'span ' + rowSpan;
+    };
+    if (img.complete) resize();
+    else img.addEventListener('load', resize);
+  });
+}
+
+window.addEventListener('resize', sizeAlbumGridItems);
+document.addEventListener('DOMContentLoaded', sizeAlbumGridItems);
+
+
+/*=======================================================================
+  SCROLL PROGRESS BAR
+======================================================================= */
 
   const scrollDots =
     document.querySelectorAll(
